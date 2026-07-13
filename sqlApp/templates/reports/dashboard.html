@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}
+Reports
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="fw-bold mb-4">
+
+        Reports Center
+
+    </h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <h5>Harvest Report</h5>
+
+                    <p class="text-muted">
+
+                        Harvest by crop, greenhouse and date.
+
+                    </p>
+
+                    <a href="{% url 'harvest_report' %}" class="btn btn-success">
+
+                        Open Report
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <h5>Inventory Report</h5>
+
+                    <p class="text-muted">
+
+                        Current stock and inventory value.
+
+                    </p>
+
+                    <a href="{% url 'inventory_report' %}" class="btn btn-primary">
+
+                        Open Report
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <h5>Production Report</h5>
+
+                    <p class="text-muted">
+
+                        Production cycles and harvest performance.
+
+                    </p>
+
+                    <a href="{% url 'production_report' %}" class="btn btn-warning">
+
+                        Open Report
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

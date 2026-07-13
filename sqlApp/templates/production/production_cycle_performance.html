@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+
+{% block title %}Production Cycle Performance{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Production Cycle Performance
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                {{ cycle.cycle_number }}
+
+                |
+
+                {{ cycle.crop_variety.crop.crop_name }}
+
+                |
+
+                {{ cycle.greenhouse.greenhouse_name }}
+
+            </p>
+
+        </div>
+
+        <a href="{% url 'production_cycle_detail' cycle.pk %}"
+           class="btn btn-secondary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back
+
+        </a>
+
+    </div>
+
+    <!-- KPI Cards -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Total Harvest
+                    </small>
+
+                    <h3 class="fw-bold text-success">
+
+                        {{ total_harvest }} kg
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Beds
+                    </small>
+
+                    <h3 class="fw-bold">
+
+                        {{ total_beds }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Plants
+                    </small>
+
+                    <h3 class="fw-bold">
+
+                        {{ total_plants }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Cost / kg
+                    </small>
+
+                    <h3 class="fw-bold text-danger">
+
+                        ₦{{ cost_per_kg|floatformat:2 }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Cost Summary -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Product Cost
+                    </small>
+
+                    <h3 class="fw-bold text-primary">
+
+                        ₦{{ product_cost }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Labour Cost
+                    </small>
+
+                    <h3 class="fw-bold text-warning">
+
+                        ₦{{ labour_cost }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Total Cost
+                    </small>
+
+                    <h3 class="fw-bold text-danger">
+
+                        ₦{{ total_cost }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Performance Summary -->
+
+    <div class="card shadow border-0">
+
+        <div class="card-header bg-success text-white">
+
+            <h5 class="mb-0">
+
+                Performance Summary
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tbody>
+
+                    <tr>
+
+                        <th width="40%">
+                            Yield per Bed
+                        </th>
+
+                        <td>
+
+                            {{ yield_per_bed|floatformat:2 }} kg
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+                            Yield per Plant
+                        </th>
+
+                        <td>
+
+                            {{ yield_per_plant|floatformat:2 }} kg
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+                            Product Cost
+                        </th>
+
+                        <td>
+
+                            ₦{{ product_cost }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+                            Labour Cost
+                        </th>
+
+                        <td>
+
+                            ₦{{ labour_cost }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+                            Total Production Cost
+                        </th>
+
+                        <td class="fw-bold">
+
+                            ₦{{ total_cost }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+                            Cost per kg
+                        </th>
+
+                        <td class="fw-bold text-danger">
+
+                            ₦{{ cost_per_kg|floatformat:2 }}
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

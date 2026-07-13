@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}
+Greenhouse Performance
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="fw-bold mb-4">
+
+        {{ greenhouse.greenhouse_name }}
+
+    </h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Production Cycles
+
+                    </small>
+
+                    <h2>
+
+                        {{ total_cycles }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Active Cycles
+
+                    </small>
+
+                    <h2>
+
+                        {{ active_cycles }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Beds
+
+                    </small>
+
+                    <h2>
+
+                        {{ total_beds }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Operations
+
+                    </small>
+
+                    <h2>
+
+                        {{ total_operations }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row mt-4">
+
+        <div class="col-md-6">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Total Harvest
+
+                    </small>
+
+                    <h2 class="text-success">
+
+                        {{ total_harvest }} kg
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Average Harvest
+
+                    </small>
+
+                    <h2>
+
+                        {{ average_harvest|floatformat:2 }} kg
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% if operation_type.requires_product %}
+
+<script>
+document.getElementById("product-group").style.display="block";
+</script>
+
+{% else %}
+
+<script>
+document.getElementById("product-group").style.display="none";
+</script>
+
+{% endif %}
+
+
+{% if operation_type.requires_quantity %}
+
+<script>
+document.getElementById("quantity-group").style.display="block";
+</script>
+
+{% else %}
+
+<script>
+document.getElementById("quantity-group").style.display="none";
+</script>
+
+{% endif %}
+
+
+{% if operation_type.requires_unit %}
+
+<script>
+document.getElementById("unit-group").style.display="block";
+</script>
+
+{% else %}
+
+<script>
+document.getElementById("unit-group").style.display="none";
+</script>
+
+{% endif %}

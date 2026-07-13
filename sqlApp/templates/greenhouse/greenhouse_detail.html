@@ -1,0 +1,1007 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ greenhouse.greenhouse_name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+
+                {{ greenhouse.greenhouse_name }}
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                {{ greenhouse.greenhouse_code }}
+
+                |
+
+                {{ greenhouse.location }}
+
+            </p>
+
+        </div>
+
+        <div>
+
+            {% if greenhouse.status == "Active" %}
+
+                <span class="badge bg-success fs-6">
+                    Active
+                </span>
+
+            {% elif greenhouse.status == "Maintenance" %}
+
+                <span class="badge bg-warning text-dark fs-6">
+                    Maintenance
+                </span>
+
+            {% else %}
+
+                <span class="badge bg-secondary fs-6">
+                    Inactive
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- KPI Cards -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Greenhouse Type
+
+                    </small>
+
+                    <h4 class="fw-bold">
+
+                        {{ greenhouse.greenhouse_type }}
+
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Area
+
+                    </small>
+
+                    <h4 class="fw-bold">
+
+                        {{ greenhouse.area }} m²
+
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Beds
+
+                    </small>
+
+                    <h4 class="fw-bold">
+
+                        {{ total_beds }}
+
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Harvest
+
+                    </small>
+
+                    <h4 class="fw-bold text-success">
+
+                        {{ total_harvest }} kg
+
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Second Row -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6">
+
+            <div class="card border-0 shadow">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Production Cycles
+
+                    </small>
+
+                    <h3 class="fw-bold">
+
+                        {{ total_cycles }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card border-0 shadow">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Active Cycles
+
+                    </small>
+
+                    <h3 class="fw-bold text-primary">
+
+                        {{ active_cycles }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Production Cycles -->
+
+    <div class="card shadow border-0">
+
+        <div class="card-header bg-success text-white">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h5 class="mb-0">
+
+                    Production Cycles
+
+                </h5>
+
+            </div>
+
+        </div>
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Cycle</th>
+
+                        <th>Crop</th>
+
+                        <th>Season</th>
+
+                        <th>Status</th>
+
+                        <th class="text-center">
+
+                            Actions
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for cycle in cycles %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ cycle.cycle_number }}
+
+                        </td>
+
+                        <td>
+
+                            {{ cycle.crop_variety.crop.crop_name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ cycle.season }}
+
+                        </td>
+
+                        <td>
+
+                            {% if cycle.status == "Completed" %}
+
+                                <span class="badge bg-success">
+
+                                    Completed
+
+                                </span>
+
+                            {% elif cycle.status == "Active" %}
+
+                                <span class="badge bg-primary">
+
+                                    Active
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    {{ cycle.status }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td class="text-center">
+
+                            <a href="{% url 'production_cycle_detail' cycle.pk %}"
+                               class="btn btn-sm btn-outline-success">
+
+                                View Cycle
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="5" class="text-center text-muted">
+
+                            No production cycles available.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+        
+    </div>
+    <div class="card shadow border-0 mt-4">
+
+        <div class="card-header bg-primary text-white">
+    
+            <h5 class="mb-0">
+    
+                Bed Occupancy Map
+    
+            </h5>
+    
+        </div>
+    
+        <div class="card-body">
+    
+            {% for bay in bays %}
+    
+                <h5 class="fw-bold mb-3">
+    
+                    {{ bay.bay_name }}
+    
+                    <small class="text-muted">
+    
+                        ({{ bay.bay_code }})
+    
+                    </small>
+    
+                </h5>
+    
+                <div class="row mb-4">
+    
+                    {% for bed in bay.beds.all %}
+    
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+    
+                        <div class="card border-0 shadow-sm h-100">
+    
+                            <div class="card-body text-center">
+    
+                                {% with assignment=bed.production_cycles.first %}
+
+                                    {% if bed.status == "Maintenance" %}
+
+                                        <span class="badge bg-warning text-dark mb-2">
+                                            Maintenance
+                                        </span>
+
+                                    {% elif assignment %}
+
+                                        <span class="badge bg-success mb-2">
+                                            Occupied
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge bg-secondary mb-2">
+                                            Available
+                                        </span>
+
+                                    {% endif %}
+
+                                {% endwith %}
+    
+                                <h5 class="fw-bold">
+
+                                    {{ bed.bed_code }}
+                                
+                                </h5>
+                                
+                                <div>
+                                
+                                    {{ bed.bed_name }}
+                                
+                                </div>
+                                <hr>
+                                
+                                {% with assignment=bed.production_cycles.first %}
+                                
+                                    {% if assignment %}
+                                
+                                        <div class="mt-2">
+                                
+                                            <strong class="text-success">
+                                
+                                                {{ assignment.production_cycle.crop_variety.crop.crop_name }}
+                                
+                                            </strong>
+                                
+                                        </div>
+                                
+                                        <small class="text-muted d-block">
+                                
+                                            {{ assignment.production_cycle.cycle_number }}
+                                
+                                        </small>
+                                
+                                        <small class="text-primary">
+                                
+                                            {{ assignment.status }}
+                                
+                                        </small>
+                                
+                                    {% else %}
+                                
+                                        <small class="text-muted">
+                                
+                                            No crop assigned
+                                
+                                        </small>
+                                
+                                    {% endif %}
+                                
+                                {% endwith %}
+                                <a href="{% url 'bed_performance' bed.pk %}"
+                                 class="btn btn-sm btn-outline-success w-100">      
+
+                                    <i class="bi bi-graph-up"></i>
+
+                                    Performance
+
+                                </a>
+                                
+                                <small class="text-muted">
+                                
+                                    Capacity:
+                                
+                                    {{ bed.capacity }}
+                                
+                                    plants
+                                
+                                </small>
+                                
+                                <br>
+                                
+                                <small class="text-muted">
+                                
+                                    {{ bed.area }} m²
+                                
+                                </small>
+                            </div>
+    
+                        </div>
+    
+                    </div>
+    
+                    {% empty %}
+    
+                        <div class="col-12">
+    
+                            <p class="text-muted">
+    
+                                No beds in this bay.
+    
+                            </p>
+    
+                        </div>
+    
+                    {% endfor %}
+    
+                </div>
+    
+            {% empty %}
+    
+                <p class="text-muted">
+    
+                    No bays found for this greenhouse.
+    
+                </p>
+    
+            {% endfor %}
+    
+        </div>
+    
+    </div>
+    <div class="card shadow border-0 mt-4">
+
+        <div class="card-header bg-dark text-white">
+    
+            <h5 class="mb-0">
+    
+                Recent Greenhouse Activities
+    
+            </h5>
+    
+        </div>
+    
+        <div class="card-body">
+    
+            <!-- Operations -->
+    
+            <h6 class="fw-bold text-success mb-3">
+    
+                Farm Operations
+    
+            </h6>
+    
+            {% for operation in recent_operations %}
+    
+            <div class="border-start border-4 border-success ps-3 mb-4">
+    
+                <h6 class="mb-1">
+    
+                    {{ operation.maintenance_type.operation_name }}
+    
+                </h6>
+    
+                <small class="text-muted">
+    
+                    📅 {{ operation.activity_date }}
+    
+                </small>
+    
+                <br>
+    
+                <small>
+    
+                    🛏 Bed:
+    
+                    {{ operation.production_cycle_bed.bed.bed_code }}
+    
+                </small>
+    
+                <br>
+    
+                <small>
+    
+                    👤 {{ operation.performed_by.get_full_name|default:operation.performed_by.username }}
+    
+                </small>
+    
+                {% if operation.product %}
+    
+                <br>
+    
+                <small>
+    
+                    🧪 {{ operation.product.product_name }}
+    
+                </small>
+    
+                {% endif %}
+    
+                {% if operation.remarks %}
+    
+                <div class="mt-2 text-muted">
+    
+                    {{ operation.remarks }}
+    
+                </div>
+    
+                {% endif %}
+    
+            </div>
+    
+            {% empty %}
+    
+            <p class="text-muted">
+    
+                No operation records.
+    
+            </p>
+    
+            {% endfor %}
+    
+            <hr>
+    
+            <!-- Harvest -->
+    
+            <h6 class="fw-bold text-danger mb-3">
+    
+                Recent Harvests
+    
+            </h6>
+    
+            {% for harvest in recent_harvests %}
+    
+            <div class="border-start border-4 border-danger ps-3 mb-4">
+    
+                <h6 class="mb-1">
+    
+                    Harvest
+    
+                </h6>
+    
+                <small class="text-muted">
+    
+                    📅 {{ harvest.harvest_date }}
+    
+                </small>
+    
+                <br>
+    
+                <small>
+    
+                    🛏 Bed:
+    
+                    {{ harvest.production_cycle_bed.bed.bed_code }}
+    
+                </small>
+    
+                <br>
+    
+                <small>
+    
+                    🍅
+    
+                    {{ harvest.quantity_kg }} kg
+    
+                </small>
+    
+                <br>
+    
+                <small>
+    
+                    👤 {{ harvest.harvested_by.get_full_name|default:harvest.harvested_by.username }}
+    
+                </small>
+    
+            </div>
+    
+            {% empty %}
+    
+            <p class="text-muted">
+    
+                No harvest records.
+    
+            </p>
+    
+            {% endfor %}
+    
+        </div>
+    
+    </div>
+
+    <div class="row mt-4">
+
+        <!-- Top Crops -->
+    
+        <div class="col-lg-6 mb-4">
+    
+            <div class="card shadow border-0 h-100">
+    
+                <div class="card-header bg-success text-white">
+    
+                    <h5 class="mb-0">
+    
+                        🌱 Top Producing Crops
+    
+                    </h5>
+    
+                </div>
+    
+                <div class="card-body">
+    
+                    <table class="table table-sm table-hover">
+    
+                        <thead>
+    
+                            <tr>
+    
+                                <th>Crop</th>
+    
+                                <th class="text-end">Harvest (kg)</th>
+    
+                            </tr>
+    
+                        </thead>
+    
+                        <tbody>
+    
+                        {% for crop in top_crops %}
+    
+                            <tr>
+    
+                                <td>
+    
+                                    {{ crop.production_cycle_bed__production_cycle__crop_variety__crop__crop_name }}
+    
+                                </td>
+    
+                                <td class="text-end">
+    
+                                    {{ crop.total }}
+    
+                                </td>
+    
+                            </tr>
+    
+                        {% empty %}
+    
+                            <tr>
+    
+                                <td colspan="2">
+    
+                                    No data
+    
+                                </td>
+    
+                            </tr>
+    
+                        {% endfor %}
+    
+                        </tbody>
+    
+                    </table>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+        <!-- Best Beds -->
+    
+        <div class="col-lg-6 mb-4">
+    
+            <div class="card shadow border-0 h-100">
+    
+                <div class="card-header bg-primary text-white">
+    
+                    <h5 class="mb-0">
+    
+                        🏆 Best Performing Beds
+    
+                    </h5>
+    
+                </div>
+    
+                <div class="card-body">
+    
+                    <table class="table table-sm table-hover">
+    
+                        <thead>
+    
+                            <tr>
+    
+                                <th>Bed</th>
+    
+                                <th class="text-end">Harvest (kg)</th>
+    
+                            </tr>
+    
+                        </thead>
+    
+                        <tbody>
+    
+                        {% for bed in top_beds %}
+    
+                            <tr>
+    
+                                <td>
+    
+                                    {{ bed.production_cycle_bed__bed__bed_code }}
+    
+                                </td>
+    
+                                <td class="text-end">
+    
+                                    {{ bed.total }}
+    
+                                </td>
+    
+                            </tr>
+    
+                        {% empty %}
+    
+                            <tr>
+    
+                                <td colspan="2">
+    
+                                    No data
+    
+                                </td>
+    
+                            </tr>
+    
+                        {% endfor %}
+    
+                        </tbody>
+    
+                    </table>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+    </div>
+
+    <div class="row">
+
+        <!-- Operations -->
+    
+        <div class="col-lg-6 mb-4">
+    
+            <div class="card shadow border-0 h-100">
+    
+                <div class="card-header bg-warning">
+    
+                    <h5 class="mb-0">
+    
+                        🔧 Most Common Operations
+    
+                    </h5>
+    
+                </div>
+    
+                <div class="card-body">
+    
+                    <table class="table table-sm">
+    
+                        <thead>
+    
+                            <tr>
+    
+                                <th>Operation</th>
+    
+                                <th class="text-end">Times</th>
+    
+                            </tr>
+    
+                        </thead>
+    
+                        <tbody>
+    
+                        {% for operation in top_operations %}
+    
+                            <tr>
+    
+                                <td>
+    
+                                    {{ operation.maintenance_type__maintenance_name }}
+    
+                                </td>
+    
+                                <td class="text-end">
+    
+                                    {{ operation.total }}
+    
+                                </td>
+    
+                            </tr>
+    
+                        {% empty %}
+    
+                            <tr>
+    
+                                <td colspan="2">
+    
+                                    No operations
+    
+                                </td>
+    
+                            </tr>
+    
+                        {% endfor %}
+    
+                        </tbody>
+    
+                    </table>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+        <!-- Products -->
+    
+        <div class="col-lg-6 mb-4">
+    
+            <div class="card shadow border-0 h-100">
+    
+                <div class="card-header bg-info text-white">
+    
+                    <h5 class="mb-0">
+    
+                        🧪 Products Used
+    
+                    </h5>
+    
+                </div>
+    
+                <div class="card-body">
+    
+                    <table class="table table-sm">
+    
+                        <thead>
+    
+                            <tr>
+    
+                                <th>Product</th>
+    
+                                <th class="text-end">Quantity</th>
+    
+                            </tr>
+    
+                        </thead>
+    
+                        <tbody>
+    
+                        {% for product in top_products %}
+    
+                            <tr>
+    
+                                <td>
+    
+                                    {{ product.product__product_name }}
+    
+                                </td>
+    
+                                <td class="text-end">
+    
+                                    {{ product.total_used }}
+    
+                                </td>
+    
+                            </tr>
+    
+                        {% empty %}
+    
+                            <tr>
+    
+                                <td colspan="2">
+    
+                                    No products used
+    
+                                </td>
+    
+                            </tr>
+    
+                        {% endfor %}
+    
+                        </tbody>
+    
+                    </table>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+    </div>
+
+    <!-- Bottom Buttons -->
+
+    <div class="mt-4 d-flex justify-content-end">
+
+        <a href="{% url 'greenhouse_performance' greenhouse.pk %}"
+           class="btn btn-success">
+
+            📊 Performance Dashboard
+
+        </a>
+
+    </div>
+
+</div>
+{% endblock %}

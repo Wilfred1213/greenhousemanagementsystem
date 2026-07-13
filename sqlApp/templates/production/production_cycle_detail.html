@@ -1,0 +1,958 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ cycle.cycle_number }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- ================= Header ================= -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+                {{ cycle.cycle_number }}
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                {{ cycle.crop_variety }}
+
+                |
+
+                {{ cycle.greenhouse }}
+
+                |
+
+                <span class="badge bg-success">
+
+                    {{ cycle.status }}
+
+                </span>
+
+            </p>
+
+        </div>
+
+        <div>
+            <a href="{% url 'production_cycle_performance' cycle.pk %}"
+                class="btn btn-outline-success">
+
+                <i class="bi bi-graph-up-arrow"></i>
+
+                Performance
+
+            </a>
+
+            <a href="{% url 'production_cycle_list' %}"
+
+               class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+    </div>
+
+    
+
+    <!-- ================= KPI Cards ================= -->
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <small class="text-muted">
+
+                        Plants
+
+                    </small>
+
+                    <h3>
+
+                        {{ cycle.total_seedlings }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <small class="text-muted">
+
+                        Beds
+
+                    </small>
+
+                    <h3>
+
+                        {{ cycle.beds_used }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <small class="text-muted">
+
+                        Harvest
+
+                    </small>
+
+                    <h3>
+
+                        {{ cycle.total_harvest_kg }} kg
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row mt-4">
+
+            <div class="col-md-4">
+        
+                <div class="card shadow border-0">
+        
+                    <div class="card-body">
+        
+                        <small class="text-muted">
+        
+                            Product Cost
+        
+                        </small>
+        
+                        <h3 class="text-primary">
+        
+                            {{ product_cost }}
+        
+                        </h3>
+        
+                    </div>
+        
+                </div>
+        
+            </div>
+        
+            <div class="col-md-4">
+        
+                <div class="card shadow border-0">
+        
+                    <div class="card-body">
+        
+                        <small class="text-muted">
+        
+                            Labour Cost
+        
+                        </small>
+        
+                        <h3 class="text-warning">
+        
+                            {{ labour_cost }}
+        
+                        </h3>
+        
+                    </div>
+        
+                </div>
+        
+            </div>
+        
+            <div class="col-md-4">
+        
+                <div class="card shadow border-0">
+        
+                    <div class="card-body">
+        
+                        <small class="text-muted">
+        
+                            Total Production Cost
+        
+                        </small>
+        
+                        <h3 class="text-danger">
+        
+                            {{ total_cost }}
+        
+                        </h3>
+        
+                    </div>
+        
+                </div>
+        
+            </div>
+        
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <small class="text-muted">
+
+                        Yield / Plant
+
+                    </small>
+
+                    <h3>
+
+                        {{ cycle.yield_per_plant }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= Tabs ================= -->
+
+    <ul class="nav nav-tabs mb-3" role="tablist">
+
+        <li class="nav-item">
+
+            <button class="nav-link active"
+
+                    data-bs-toggle="tab"
+
+                    data-bs-target="#overview">
+
+                Overview
+
+            </button>
+
+        </li>
+
+        <li class="nav-item">
+
+            <button class="nav-link"
+
+                    data-bs-toggle="tab"
+
+                    data-bs-target="#operations">
+
+                Operations
+
+            </button>
+
+        </li>
+
+        <li class="nav-item">
+
+            <button class="nav-link"
+
+                    data-bs-toggle="tab"
+
+                    data-bs-target="#beds">
+
+                Beds
+
+            </button>
+
+        </li>
+
+        <li class="nav-item">
+
+            <button class="nav-link"
+
+                    data-bs-toggle="tab"
+
+                    data-bs-target="#harvest">
+
+                Harvest
+
+            </button>
+
+        </li>
+
+        <li class="nav-item">
+
+            <button class="nav-link"
+
+                    data-bs-toggle="tab"
+
+                    data-bs-target="#packing">
+
+                Packing
+
+            </button>
+
+        </li>
+
+        <li class="nav-item">
+
+            <button class="nav-link"
+
+                    data-bs-toggle="tab"
+
+                    data-bs-target="#analytics">
+
+                Analytics
+
+            </button>
+
+        </li>
+
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- ================= Overview ================= -->
+
+        <div class="tab-pane fade show active"
+
+             id="overview">
+             <div class="row g-3 mb-4">
+
+                <div class="col-md-3">
+            
+                    <div class="card shadow-sm border-0">
+            
+                        <div class="card-body">
+            
+                            <small class="text-muted">
+            
+                                Beds
+            
+                            </small>
+            
+                            <h2>
+            
+                                {{ beds.count }}
+            
+                            </h2>
+            
+                        </div>
+            
+                    </div>
+            
+                </div>
+            
+                <div class="col-md-3">
+            
+                    <div class="card shadow-sm border-0">
+            
+                        <div class="card-body">
+            
+                            <small class="text-muted">
+            
+                                Operations
+            
+                            </small>
+            
+                            <h2>
+            
+                                {{ operations.count }}
+            
+                            </h2>
+            
+                        </div>
+            
+                    </div>
+            
+                </div>
+            
+                <div class="col-md-3">
+            
+                    <div class="card shadow-sm border-0">
+            
+                        <div class="card-body">
+            
+                            <small class="text-muted">
+            
+                                Total Harvest
+            
+                            </small>
+            
+                            <h2>
+            
+                                {{ total_harvest }} kg
+            
+                            </h2>
+            
+                        </div>
+            
+                    </div>
+            
+                </div>
+            
+                <div class="col-md-3">
+            
+                    <div class="card shadow-sm border-0">
+            
+                        <div class="card-body">
+            
+                            <small class="text-muted">
+            
+                                Status
+            
+                            </small>
+            
+                            <h5>
+            
+                                {{ cycle.status }}
+            
+                            </h5>
+            
+                        </div>
+            
+                    </div>
+            
+                </div>
+            
+            </div>
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h5>
+
+                        Production Information
+
+                    </h5>
+
+                    <hr>
+
+                    <table class="table">
+
+                        <tr>
+
+                            <th>Season</th>
+
+                            <td>{{ cycle.season }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Nursery Batch</th>
+
+                            <td>{{ cycle.nursery_batch }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Nursery Date</th>
+
+                            <td>{{ cycle.nursery_date }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Expected First Harvest</th>
+
+                            <td>{{ cycle.expected_first_harvest }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Expected Last Harvest</th>
+
+                            <td>{{ cycle.expected_last_harvest }}</td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ================= Operations ================= -->
+
+        <div class="tab-pane fade"
+
+             id="operations">
+
+            
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <h5 class="mb-0">
+                    
+                            Operations Timeline
+                    
+                        </h5>
+                    
+                        <button
+                            type="button"
+                            class="btn btn-success"
+                            data-bs-toggle="modal"
+                            data-bs-target="#operationModal">
+
+                            <i class="bi bi-plus-circle"></i>
+
+                            Record Operation
+
+                        </button>
+                    
+                    </div>
+                    
+                    <div class="table-responsive">
+                    
+                    <table class="table table-hover align-middle">
+                    
+                        <thead>
+                    
+                        <tr>
+                    
+                            <th>Date</th>
+                    
+                            <th>Operation</th>
+                    
+                            <th>Bed</th>
+                    
+                            <th>Product</th>
+                    
+                            <th>Quantity</th>
+                    
+                            <th>Staff</th>
+                    
+                        </tr>
+                    
+                        </thead>
+                    
+                        <tbody>
+                    
+                        {% for operation in operations %}
+                    
+                        <tr>
+                    
+                            <td>{{ operation.activity_date }}</td>
+                    
+                            <td>{{ operation.maintenance_type }}</td>
+                    
+                            <td>
+
+                                {% for item in operation.operation_beds.all %}
+                                
+                                    <span class="badge bg-success">
+                                
+                                        {{ item.bed.bed_code }}
+                                
+                                    </span>
+                                
+                                {% empty %}
+                                
+                                    <span class="text-muted">None</span>
+                                
+                                {% endfor %}
+                                
+                            </td>
+                    
+                            <td>{{ operation.product|default:"-" }}</td>
+                    
+                            <td>
+                    
+                                {{ operation.quantity }}
+                    
+                                {{ operation.unit }}
+                    
+                            </td>
+                    
+                            <td>{{ operation.performed_by }}</td>
+                    
+                        </tr>
+                    
+                        {% empty %}
+                    
+                        <tr>
+                    
+                            <td colspan="6" class="text-center text-muted">
+                    
+                                No operations have been recorded.
+                    
+                            </td>
+                    
+                        </tr>
+                    
+                        {% endfor %}
+                    
+                        </tbody>
+                    
+                    </table>
+                    
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ================= Beds ================= -->
+
+        <div class="tab-pane fade"
+
+             id="beds">
+
+            <div class="card shadow-sm">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover">
+
+                        <thead>
+
+                        <tr>
+
+                            <th>Bed</th>
+
+                            <th>Plants</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        {% for bed in beds %}
+
+                        <tr>
+
+                            <td>{{ bed.bed }}</td>
+
+                            <td>{{ bed.transplanted_seedlings }}</td>
+
+                            <td>{{ bed.status }}</td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="3">
+
+                                No beds assigned.
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ================= Harvest ================= -->
+
+        <div class="tab-pane fade"
+
+             id="harvest">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    Harvest records will appear here.
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ================= Packing ================= -->
+
+        <div class="tab-pane fade"
+
+             id="packing">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    Packing batches will appear here.
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ================= Analytics ================= -->
+
+        <div class="tab-pane fade"
+
+             id="analytics">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    Charts and production analytics will appear here.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- Record Operation Modal -->
+<!-- ========================================= -->
+
+<div
+    class="modal fade"
+    id="operationModal"
+    tabindex="-1">
+
+<div class="modal-dialog modal-lg">
+
+<div class="modal-content">
+
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="modal-header">
+
+<h5 class="modal-title">
+
+Record Greenhouse Operation
+
+</h5>
+
+<button
+type="button"
+class="btn-close"
+data-bs-dismiss="modal">
+
+</button>
+
+</div>
+
+<div class="modal-body">
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Date</label>
+            {{ operation_form.activity_date }}
+        </div>
+    
+        <div class="col-md-6 mb-3">
+
+            <label class="form-label">
+        
+                Operation
+        
+            </label>
+        
+            {{ operation_form.maintenance_type }}
+        
+        </div>
+    
+        <div class="col-12 mb-3">
+
+            <label class="form-label fw-bold">
+        
+                Select Affected Beds
+        
+            </label>
+        
+            <div class="row">
+        
+                {% for cycle_bed in cycle_beds %}
+        
+                <div class="col-md-3">
+        
+                    <div class="form-check">
+        
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="beds"
+                            value="{{ cycle_bed.bed.id }}"
+                            id="bed{{ cycle_bed.bed.id }}">
+        
+                        <label
+                            class="form-check-label"
+                            for="bed{{ cycle_bed.bed.id }}">
+        
+                            {{ cycle_bed.bed.bed_code }}
+        
+                        </label>
+        
+                    </div>
+        
+                </div>
+        
+                {% endfor %}
+        
+            </div>
+        
+        </div>
+    
+        <div class="col-md-6 mb-3" id="product-group">
+            <label class="form-label">Product</label>
+            {{ operation_form.product }}
+        </div>
+    
+        <div class="col-md-4 mb-3" id="quantity-group">
+            <label class="form-label">Quantity</label>
+            {{ operation_form.quantity }}
+        </div>
+    
+        <div class="col-md-4 mb-3" id="unit-group">
+            <label class="form-label">Unit</label>
+            {{ operation_form.unit }}
+        </div>
+        
+    
+        <div class="col-md-4 mb-3" id="cost-group">
+            <label class="form-label">Labour Cost (₦)</label>
+            {{ operation_form.labour_cost }}
+        </div>
+    
+        <div class="col-12 mb-3" id="remarks-group">
+            <label class="form-label">Remarks</label>
+            {{ operation_form.remarks }}
+        </div>
+    
+    </div>
+</div>
+
+<div class="modal-footer">
+
+<button
+type="button"
+class="btn btn-secondary"
+data-bs-dismiss="modal">
+
+Cancel
+
+</button>
+
+<button
+type="submit"
+class="btn btn-success">
+
+<i class="bi bi-check-circle"></i>
+
+Save Operation
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+    
+        const operation = document.getElementById("id_maintenance_type");
+    
+        function toggleFields(){
+    
+            const text = operation.options[operation.selectedIndex].text.toLowerCase();
+    
+            document.getElementById("product-group").style.display="none";
+            document.getElementById("quantity-group").style.display="none";
+            document.getElementById("unit-group").style.display="none";
+            document.getElementById("cost-group").style.display="none";
+            document.getElementById("remarks-group").style.display="none";
+    
+            if(text.includes("spray") || text.includes("fertigation") || text.includes("fertilizer")){
+    
+                document.getElementById("product-group").style.display="block";
+                document.getElementById("quantity-group").style.display="block";
+                document.getElementById("unit-group").style.display="block";
+                document.getElementById("cost-group").style.display="block";
+    
+            }
+    
+            else if(text.includes("pruning")){
+    
+                document.getElementById("cost-group").style.display="block";
+                document.getElementById("remarks-group").style.display="block";
+    
+            }
+    
+            else{
+    
+                document.getElementById("cost-group").style.display="block";
+    
+            }
+    
+        }
+    
+        operation.addEventListener("change", toggleFields);
+    
+        toggleFields();
+    
+    });
+    
+    </script>
+
+{% endblock %}
+

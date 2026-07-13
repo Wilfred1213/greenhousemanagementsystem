@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}
+Production Cycles
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between mb-4">
+
+    <h3>Production Cycles</h3>
+
+    <a href="/admin/sqlApp/productioncycle/add/"
+       class="btn btn-success">
+
+        <i class="bi bi-plus-circle"></i>
+
+        New Cycle
+
+    </a>
+
+</div>
+
+<div class="card shadow">
+
+<div class="table-responsive">
+
+<table class="table table-hover align-middle">
+
+<thead>
+
+<tr>
+
+<th>Cycle</th>
+
+<th>Greenhouse</th>
+
+<th>Crop</th>
+
+<th>Status</th>
+
+<th>Beds</th>
+
+<th>Harvest</th>
+
+<th></th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for cycle in cycles %}
+
+<tr>
+
+<td>{{ cycle.cycle_number }}</td>
+
+<td>{{ cycle.greenhouse }}</td>
+
+<td>{{ cycle.crop_variety }}</td>
+
+<td>
+
+<span class="badge bg-success">
+
+{{ cycle.status }}
+
+</span>
+
+</td>
+
+<td>{{ cycle.beds_used }}</td>
+
+<td>{{ cycle.total_harvest_kg }} kg</td>
+
+<td>
+
+<a href="{% url 'production_cycle_detail' cycle.id %}"
+
+class="btn btn-outline-primary btn-sm">
+
+Open
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+{% endblock %}

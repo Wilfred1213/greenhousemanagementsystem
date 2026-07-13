@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+<h2 class="mb-4">
+
+Nursery Batch
+
+{{ batch.batch_number }}
+
+</h2>
+
+<div class="card shadow mb-4">
+
+<div class="card-body">
+
+<div class="row">
+
+<div class="col-md-6">
+
+<p><strong>Crop:</strong>
+
+{{ batch.crop_variety.crop.crop_name }}
+
+</p>
+
+<p><strong>Variety:</strong>
+
+{{ batch.crop_variety.variety_name }}
+
+</p>
+
+<p><strong>Season:</strong>
+
+{{ batch.season.season_name }}
+
+</p>
+
+<p><strong>Status:</strong>
+
+{{ batch.status }}
+
+</p>
+
+</div>
+
+<div class="col-md-6">
+
+<p><strong>Sowing Date:</strong>
+
+{{ batch.sowing_date }}
+
+</p>
+
+<p><strong>Expected Germination:</strong>
+
+{{ batch.expected_germination_date }}
+
+</p>
+
+<p><strong>Expected Transplant:</strong>
+
+{{ batch.expected_transplant_date }}
+
+</p>
+
+</div>
+
+</div>
+
+<hr>
+
+<div class="row text-center">
+
+<div class="col">
+
+<h3>
+
+{{ batch.seeds_sown }}
+
+</h3>
+
+Seeds
+
+</div>
+
+<div class="col">
+
+<h3>
+
+{{ batch.trays_used }}
+
+</h3>
+
+Trays
+
+</div>
+
+</div>
+
+{% if batch.remarks %}
+
+<hr>
+
+<strong>Remarks</strong>
+
+<p>
+
+{{ batch.remarks }}
+
+</p>
+
+{% endif %}
+
+</div>
+
+</div>
+
+<h4>
+
+Production Cycles
+
+</h4>
+
+<table class="table table-bordered">
+
+<thead>
+
+<tr>
+
+<th>Cycle</th>
+
+<th>Greenhouse</th>
+
+<th>Status</th>
+
+<th></th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for cycle in production_cycles %}
+
+<tr>
+
+<td>
+
+{{ cycle.cycle_number }}
+
+</td>
+
+<td>
+
+{{ cycle.greenhouse.greenhouse_name }}
+
+</td>
+
+<td>
+
+{{ cycle.status }}
+
+</td>
+
+<td>
+
+<a href="{% url 'production_cycle_detail' cycle.pk %}"
+
+class="btn btn-sm btn-success">
+
+Open
+
+</a>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="4">
+
+No production cycle has been created from this nursery batch.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

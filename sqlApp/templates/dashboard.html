@@ -1,0 +1,545 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="card mb-4 shadow-sm border-0">
+
+        <div class="card-body">
+    
+            <h3 class="text-success">
+    
+                Welcome,
+                {{ request.user.get_full_name|default:request.user.username }}
+    
+            </h3>
+    
+            <p class="mb-0">
+    
+                🌱 SCL Greenhouse Management System
+    
+            </p>
+    
+            <small class="text-muted">
+    
+                Today:
+                {% now "l, d F Y" %}
+    
+            </small>
+    
+        </div>
+    
+    </div>
+
+    {% comment %} <div class="mb-4">
+
+        <a href="{% url 'production_cycle_create' %}" class="btn btn-success">
+    
+            <i class="bi bi-plus-circle"></i>
+    
+            New Production Cycle
+    
+        </a>
+    
+        <a href="{% url 'harvest_create' %}" class="btn btn-primary">
+    
+            <i class="bi bi-basket"></i>
+    
+            Record Harvest
+    
+        </a>
+    
+        <a href="{% url 'operation_create' %}" class="btn btn-warning">
+    
+            <i class="bi bi-tools"></i>
+    
+            Record Operation
+    
+        </a>
+    
+    </div> {% endcomment %}
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        
+        <hr>
+    
+        
+    
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row g-4">
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card bg-primary text-white shadow border-0">
+                <div class="card-body">
+                    <h6 class="text-uppercase">Active Production Cycles</h6>
+                    <h2 class="fw-bold">{{ active_cycles }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card bg-success text-white shadow border-0">
+                <div class="card-body">
+                    <h6 class="text-uppercase">Beds</h6>
+                    <h2 class="fw-bold">{{ beds }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card bg-warning shadow border-0">
+                <div class="card-body">
+                    <h6 class="text-uppercase">Greenhouses</h6>
+                    <h2 class="fw-bold">{{ greenhouses }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card bg-danger text-white shadow border-0">
+                <div class="card-body">
+                    <h6 class="text-uppercase">Today's Harvest</h6>
+                    <h2 class="fw-bold">{{ harvest_today }} kg</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card bg-dark text-white shadow border-0">
+        
+                <div class="card-body">
+        
+                    <h6 class="text-uppercase">
+        
+                        Inventory Value
+        
+                    </h6>
+        
+                    <h2 class="fw-bold">
+        
+                        {{ inventory_value }}
+        
+                    </h2>
+        
+                </div>
+        
+            </div>
+        
+        </div>
+        
+
+    </div>
+    
+    <div class="card shadow border-0 mt-4">
+
+        <div class="card-header bg-danger text-white">
+    
+            <h5 class="mb-0">
+    
+                ⚠ Low Stock Alerts
+    
+            </h5>
+    
+        </div>
+    
+        <div class="card-body">
+    
+            {% if low_stock_products %}
+    
+            <table class="table table-hover align-middle">
+    
+                <thead>
+    
+                    <tr>
+    
+                        <th>Product</th>
+    
+                        <th>Current Stock</th>
+    
+                        <th>Minimum Stock</th>
+    
+                        <th>Status</th>
+    
+                    </tr>
+    
+                </thead>
+    
+                <tbody>
+    
+                    {% for product in low_stock_products %}
+    
+                    <tr>
+    
+                        <td>
+    
+                            {{ product.product_name }}
+    
+                        </td>
+    
+                        <td>
+    
+                            {{ product.current_stock }} {{ product.unit }}
+    
+                        </td>
+    
+                        <td>
+    
+                            {{ product.minimum_stock }} {{ product.unit }}
+    
+                        </td>
+    
+                        <td>
+    
+                            <span class="badge bg-danger">
+    
+                                Low Stock
+    
+                            </span>
+    
+                        </td>
+    
+                    </tr>
+    
+                    {% endfor %}
+    
+                </tbody>
+    
+            </table>
+    
+            {% else %}
+    
+            <div class="alert alert-success mb-0">
+    
+                🎉 All products are above their minimum stock levels.
+    
+            </div>
+    
+            {% endif %}
+    
+        </div>
+    
+    </div>
+
+    <!-- Charts -->
+    <div class="row mt-4">
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow border-0 h-100">
+
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Harvest by Crop</h5>
+                </div>
+
+                <div class="card-body">
+                    <canvas id="cropChart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow border-0 h-100">
+
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Monthly Harvest Trend</h5>
+                </div>
+
+                <div class="card-body">
+                    <canvas id="monthChart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Tables -->
+    <div class="row">
+
+        <div class="col-lg-8 mb-4">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Recent Harvests</h5>
+                </div>
+
+                <div class="card-body table-responsive">
+
+                    <table class="table table-striped table-hover align-middle">
+
+                        <thead class="table-light">
+
+                            <tr>
+                                <th>Date</th>
+                                <th>Operation</th>
+                                <th>Crop</th>
+                                <th>Greenhouse</th>
+                                <th>Quantity</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        {% for harvest in recent_harvests %}
+
+                            <tr>
+
+                                <td>{{ harvest.harvest_date }}</td>
+
+                                <td>{{ harvest.harvested_by }}</td>
+
+                                <td>{{ harvest.production_cycle_bed.production_cycle.crop_variety.crop.crop_name }}</td>
+
+                                <td>{{ harvest.production_cycle_bed.production_cycle.greenhouse.greenhouse_name }}</td>
+
+                                <td>
+                                    <span class="badge bg-success">
+                                        {{ harvest.quantity_kg }} kg
+                                    </span>
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+
+                                <td colspan="5" class="text-center text-muted">
+                                    No harvest records available.
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="card shadow border-0 h-100">
+        
+                <div class="card-header bg-white">
+        
+                    <h5 class="mb-0">
+        
+                        Recent Operations
+        
+                    </h5>
+        
+                </div>
+        
+                <div class="card-body">
+        
+                    <div class="table-responsive">
+        
+                        <table class="table table-hover align-middle">
+        
+                            <thead>
+        
+                                <tr>
+        
+                                    <th>Date</th>
+        
+                                    <th>Operation</th>
+        
+                                </tr>
+        
+                            </thead>
+        
+                            <tbody>
+        
+                                {% for operation in recent_operations %}
+        
+                                <tr>
+        
+                                    <td>
+        
+                                        {{ operation.activity_date }}
+        
+                                    </td>
+        
+                                    <td>
+        
+                                        <strong>
+        
+                                            {{ operation.maintenance_type }}
+        
+                                        </strong>
+        
+                                        <br>
+        
+                                        <small class="text-muted">
+        
+                                            {{ operation.production_cycle.bed }}
+        
+                                        </small>
+        
+                                    </td>
+        
+                                </tr>
+        
+                                {% empty %}
+        
+                                <tr>
+        
+                                    <td colspan="2" class="text-center text-muted">
+        
+                                        No operations recorded.
+        
+                                    </td>
+        
+                                </tr>
+        
+                                {% endfor %}
+        
+                            </tbody>
+        
+                        </table>
+        
+                    </div>
+        
+                </div>
+        
+            </div>
+        
+        </div>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+const cropLabels = {{ crop_labels|safe }};
+const cropTotals = {{ crop_totals|safe }};
+
+new Chart(document.getElementById('cropChart'), {
+
+    type: 'bar',
+
+    data: {
+
+        labels: cropLabels,
+
+        datasets: [{
+
+            label: 'Harvest (kg)',
+
+            data: cropTotals,
+
+            borderWidth: 1
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        plugins: {
+
+            legend: {
+
+                display: true
+
+            }
+
+        },
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true
+
+            }
+
+        }
+
+    }
+
+});
+
+
+const monthLabels = {{ month_labels|safe }};
+const monthTotals = {{ month_totals|safe }};
+
+new Chart(document.getElementById('monthChart'), {
+
+    type: 'line',
+
+    data: {
+
+        labels: monthLabels,
+
+        datasets: [{
+
+            label: 'Monthly Harvest (kg)',
+
+            data: monthTotals,
+
+            fill: false,
+
+            tension: 0.4,
+
+            borderWidth: 3
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        plugins: {
+
+            legend: {
+
+                display: true
+
+            }
+
+        },
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

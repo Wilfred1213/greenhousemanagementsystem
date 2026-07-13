@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}Operations{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>Operations</h2>
+
+        <a href=""
+           class="btn btn-success">
+
+            <i class="bi bi-plus-circle"></i>
+
+            New Operation
+
+        </a>
+
+    </div>
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+    
+            <div class="card shadow-sm border-0">
+    
+                <div class="card-body">
+    
+                    <small class="text-muted">
+                        Total Operations
+                    </small>
+    
+                    <h2 class="fw-bold text-success">
+                        {{ total_operations }}
+                    </h2>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+        <div class="col-md-4">
+    
+            <div class="card shadow-sm border-0">
+    
+                <div class="card-body">
+    
+                    <small class="text-muted">
+                        Product Cost
+                    </small>
+    
+                    <h2 class="fw-bold text-primary">
+    
+                        ₦{{ total_product_cost }}
+    
+                    </h2>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+        <div class="col-md-4">
+    
+            <div class="card shadow-sm border-0">
+    
+                <div class="card-body">
+    
+                    <small class="text-muted">
+                        Labour Cost
+                    </small>
+    
+                    <h2 class="fw-bold text-danger">
+    
+                        ₦{{ total_labour_cost }}
+    
+                    </h2>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+                    
+                        <th>No.</th>
+                    
+                        <th>Date</th>
+                    
+                        <th>Production Cycle</th>
+                    
+                        <th>Operation</th>
+                    
+                        <th>Product</th>
+                    
+                        <th>Product Cost</th>
+                    
+                        <th>Labour Cost</th>
+                    
+                        <th>Performed By</th>
+                    
+                        <th></th>
+                    
+                    </tr>
+                    
+                </thead>
+
+                <tbody>
+
+                    {% for operation in operations %}
+
+                    <tr>
+
+                        <td>{{ operation.operation_number }}</td>
+                    
+                        <td>{{ operation.activity_date }}</td>
+                    
+                        <td>{{ operation.production_cycle.cycle_number }}</td>
+                    
+                        <td>{{ operation.maintenance_type }}</td>
+                    
+                        <td>
+                    
+                            {{ operation.product|default:"-" }}
+                    
+                        </td>
+                    
+                        <td>
+                    
+                            ₦{{ operation.product_cost }}
+                    
+                        </td>
+                    
+                        <td>
+                    
+                            ₦{{ operation.labour_cost }}
+                    
+                        </td>
+                    
+                        <td>
+                    
+                            {{ operation.performed_by }}
+                    
+                        </td>
+                    
+                        <td>
+                    
+                            <a href="{% url 'operation_detail' operation.pk %}"
+                               class="btn btn-sm btn-outline-success">
+                    
+                                View
+                    
+                            </a>
+                    
+                        </td>
+                    
+                    </tr>
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="6" class="text-center">
+
+                            No operations recorded.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

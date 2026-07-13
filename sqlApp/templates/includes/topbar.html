@@ -1,0 +1,32 @@
+<div class="topbar">
+
+    <button class="btn btn-success d-lg-none"
+            onclick="toggleSidebar()">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <h5 class="mb-0">
+        SCL Greenhouse Management System
+    </h5>
+
+    <div>
+
+        {% if request.user.is_authenticated %}
+
+            <span class="me-3">
+                Welcome,
+                <strong>{{ request.user.username }}</strong>
+            </span>
+
+        {% endif %}
+
+        <a href="/admin/logout/"
+           class="btn btn-outline-danger btn-sm">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</div>

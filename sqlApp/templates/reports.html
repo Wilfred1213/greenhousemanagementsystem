@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="container-fluid">
+
+        <h2 class="fw-bold mb-4">
+    
+            Reports Dashboard
+    
+        </h2>
+    
+        <div class="row g-4 mb-4">
+    
+            <div class="col-md-4">
+    
+                <div class="card border-0 shadow">
+    
+                    <div class="card-body">
+    
+                        <small class="text-muted">
+                            Total Harvest
+                        </small>
+    
+                        <h2 class="fw-bold text-success">
+    
+                            {{ total_harvest }} kg
+    
+                        </h2>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+            <div class="col-md-4">
+    
+                <div class="card border-0 shadow">
+    
+                    <div class="card-body">
+    
+                        <small class="text-muted">
+                            Average Harvest
+                        </small>
+    
+                        <h2 class="fw-bold">
+    
+                            {{ average_harvest|floatformat:2 }} kg
+    
+                        </h2>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+            <div class="col-md-4">
+    
+                <div class="card border-0 shadow">
+    
+                    <div class="card-body">
+    
+                        <small class="text-muted">
+                            Harvest Records
+                        </small>
+    
+                        <h2 class="fw-bold text-primary">
+    
+                            {{ total_records }}
+    
+                        </h2>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+
+        <div class="card shadow border-0 mb-4">
+
+            <div class="card-header bg-white">
+        
+                <h5 class="mb-0">
+        
+                    Monthly Harvest Trend
+        
+                </h5>
+        
+            </div>
+        
+            <div class="card-body">
+        
+                <canvas id="reportHarvestChart"></canvas>
+        
+            </div>
+        
+        </div> 
+    <div class="card shadow border-0">
+
+        <div class="card-header bg-success text-white">
+
+            <h5 class="mb-0">
+                Top Crops by Harvest
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-striped table-hover align-middle">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Crop</th>
+
+                        <th class="text-end">
+                            Total Harvest (kg)
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for crop in top_crops %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ crop.production_cycle_bed__production_cycle__crop_variety__crop__crop_name }}
+
+                        </td>
+
+                        <td class="text-end">
+
+                            <span class="badge bg-success">
+
+                                {{ crop.total_harvest }} kg
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="2" class="text-center text-muted">
+
+                            No harvest records found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+const monthLabels = {{ month_labels|safe }};
+const monthTotals = {{ month_totals|safe }};
+
+new Chart(document.getElementById("reportHarvestChart"), {
+
+    type: "line",
+
+    data: {
+
+        labels: monthLabels,
+
+        datasets: [{
+
+            label: "Harvest (kg)",
+
+            data: monthTotals,
+
+            borderWidth: 3,
+
+            tension: 0.4,
+
+            fill: false,
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        plugins: {
+
+            legend: {
+
+                display: true
+
+            }
+
+        },
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

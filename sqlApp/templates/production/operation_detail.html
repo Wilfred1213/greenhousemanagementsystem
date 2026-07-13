@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="card shadow">
+
+<div class="card-header bg-success text-white">
+
+<h4>
+
+Operation {{ operation.operation_number }}
+
+</h4>
+
+</div>
+
+<div class="card-body">
+
+    <table class="table table-bordered">
+
+        <tr>
+            <th>Date</th>
+            <td>{{ operation.activity_date }}</td>
+        </tr>
+        
+        <tr>
+            <th>Greenhouse</th>
+            <td>{{ operation.greenhouse.greenhouse_name }}</td>
+        </tr>
+        
+        <tr>
+            <th>Production Cycle</th>
+            <td>{{ operation.production_cycle.cycle_number }}</td>
+        </tr>
+        
+        <tr>
+            <th>Operation</th>
+            <td>{{ operation.maintenance_type }}</td>
+        </tr>
+        
+        <tr>
+            <th>Performed By</th>
+            <td>{{ operation.performed_by }}</td>
+        </tr>
+        
+        <tr>
+            <th>Product</th>
+            <td>{{ operation.product|default:"-" }}</td>
+        </tr>
+        
+        <tr>
+            <th>Quantity</th>
+            <td>{{ operation.quantity|default:"-" }}</td>
+        </tr>
+        
+        <tr>
+            <th>Unit</th>
+            <td>{{ operation.unit|default:"-" }}</td>
+        </tr>
+        
+        <tr>
+            <th>Product Cost</th>
+            <td>₦{{ operation.product_cost }}</td>
+        </tr>
+        
+        <tr>
+            <th>Labour Cost</th>
+            <td>₦{{ operation.labour_cost }}</td>
+        </tr>
+        
+        <tr>
+            <th>Status</th>
+            <td>
+        
+        <span class="badge bg-success">
+        
+        {{ operation.status }}
+        
+        </span>
+        
+            </td>
+        </tr>
+        
+        <tr>
+            <th>Remarks</th>
+            <td>{{ operation.remarks|default:"-" }}</td>
+        </tr>
+        
+    </table>
+
+    <h5 class="mt-4">
+
+        Affected Beds
+        
+    </h5>
+        
+    <div class="mt-2">
+        
+        {% for item in operation.operation_beds.all %}
+        
+        <span class="badge bg-success me-2 mb-2">
+        
+        {{ item.bed.bed_code }}
+        
+        </span>
+        
+        {% empty %}
+        
+        <span class="text-muted">
+        
+        No beds selected.
+        
+        </span>
+        
+        {% endfor %}
+        
+    </div>
+    <div class="mt-4">
+
+        <a href="{% url 'operation_list' %}"
+        class="btn btn-secondary">
+        
+        Back
+        
+        </a>
+        
+    </div>
+        
+    </div>
+        
+    </div>
+        
+    </div>
+        
+    {% endblock %}

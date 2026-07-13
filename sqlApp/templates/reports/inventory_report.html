@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}
+Inventory Report
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                Inventory Report
+
+            </h2>
+
+            <small class="text-muted">
+
+                SCL Greenhouse Production & Inventory Management System
+
+            </small>
+
+        </div>
+
+        <button
+            onclick="window.print()"
+            class="btn btn-success">
+
+            <i class="bi bi-printer"></i>
+
+            Print
+
+        </button>
+
+    </div>
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h6>Total Products</h6>
+
+                    <h3>{{ total_products }}</h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h6>Inventory Value</h6>
+
+                    <h3>₦{{ inventory_value }}</h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h6>Low Stock Items</h6>
+
+                    <h3>{{ low_stock }}</h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <table class="table table-striped">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Product</th>
+
+                        <th>Stock</th>
+
+                        <th>Minimum</th>
+
+                        <th>Unit Cost</th>
+
+                        <th>Inventory Value</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for product in products %}
+
+                    <tr>
+
+                        <td>{{ product.product_name }}</td>
+
+                        <td>{{ product.current_stock }}</td>
+
+                        <td>{{ product.minimum_stock }}</td>
+
+                        <td>₦{{ product.unit_cost }}</td>
+
+                        <td>
+
+                            ₦{{ product.current_stock|floatformat:2 }}
+
+                        </td>
+
+                        <td>
+
+                            {% if product.current_stock <= product.minimum_stock %}
+
+                                <span class="badge bg-danger">
+
+                                    Low Stock
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-success">
+
+                                    OK
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="6" class="text-center">
+
+                            No inventory records found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

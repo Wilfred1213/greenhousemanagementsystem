@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+<div class="d-flex justify-content-between mb-4">
+
+<h2>
+
+Nursery Batches
+
+</h2>
+
+</div>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<table class="table table-hover">
+
+<thead>
+
+<tr>
+
+<th>Batch</th>
+
+<th>Crop</th>
+
+<th>Variety</th>
+
+<th>Season</th>
+
+<th>Sowing Date</th>
+
+<th>Expected Transplant</th>
+
+<th>Status</th>
+
+<th></th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for batch in batches %}
+
+<tr>
+
+<td>
+
+{{ batch.batch_number }}
+
+</td>
+
+<td>
+
+{{ batch.crop_variety.crop.crop_name }}
+
+</td>
+
+<td>
+
+{{ batch.crop_variety.variety_name }}
+
+</td>
+
+<td>
+
+{{ batch.season.season_name }}
+
+</td>
+
+<td>
+
+{{ batch.sowing_date }}
+
+</td>
+
+<td>
+
+{{ batch.expected_transplant_date }}
+
+</td>
+
+<td>
+
+<span class="badge bg-success">
+
+{{ batch.status }}
+
+</span>
+
+</td>
+
+<td>
+
+<a href="{% url 'nursery_batch_detail' batch.pk %}"
+
+class="btn btn-sm btn-outline-success">
+
+View
+
+</a>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="8" class="text-center">
+
+No nursery batches found.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+<div>
+
+<h2>
+
+Harvest Details
+
+</h2>
+
+<p class="text-muted">
+
+{{ harvest.production_cycle_bed.production_cycle.crop_variety.crop.crop_name }}
+
+</p>
+
+</div>
+
+<a href="{% url 'harvest_list' %}"
+class="btn btn-secondary">
+
+<i class="bi bi-arrow-left"></i>
+
+Back
+
+</a>
+
+</div>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<table class="table table-bordered">
+
+<tr>
+
+<th>Harvest Date</th>
+
+<td>{{ harvest.harvest_date }}</td>
+
+</tr>
+
+<tr>
+
+<th>Greenhouse</th>
+
+<td>{{ harvest.production_cycle_bed.production_cycle.greenhouse.greenhouse_name }}</td>
+
+</tr>
+
+<tr>
+
+<th>Production Cycle</th>
+
+<td>{{ harvest.production_cycle_bed.production_cycle.cycle_number }}</td>
+
+</tr>
+
+<tr>
+
+<th>Bed</th>
+
+<td>{{ harvest.production_cycle_bed.bed.bed_code }}</td>
+
+</tr>
+
+<tr>
+
+<th>Crop</th>
+
+<td>{{ harvest.production_cycle_bed.production_cycle.crop_variety.crop.crop_name }}</td>
+
+</tr>
+
+<tr>
+
+<th>Harvest Grade</th>
+
+<td>{{ harvest.harvest_grade }}</td>
+
+</tr>
+
+<tr>
+
+<th>Quantity</th>
+
+<td>
+
+<strong class="text-success">
+
+{{ harvest.quantity_kg }} kg
+
+</strong>
+
+</td>
+
+</tr>
+
+<tr>
+
+<th>Crates</th>
+
+<td>{{ harvest.crates|default:"-" }}</td>
+
+</tr>
+
+<tr>
+
+<th>Average Fruit Weight</th>
+
+<td>{{ harvest.average_fruit_weight_g|default:"-" }} g</td>
+
+</tr>
+
+<tr>
+
+<th>Harvested By</th>
+
+<td>{{ harvest.harvested_by }}</td>
+
+</tr>
+
+<tr>
+
+<th>Remarks</th>
+
+<td>{{ harvest.remarks|default:"-" }}</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

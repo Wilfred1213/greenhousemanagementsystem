@@ -1,0 +1,166 @@
+<div class="row mb-4">
+
+    <div class="col-md-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h6>Total Harvest</h6>
+
+                <h3>
+
+                    {{ total_harvest }} kg
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h6>Average Harvest</h6>
+
+                <h3>
+
+                    {{ average_harvest }} kg
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h6>Total Records</h6>
+
+                <h3>
+
+                    {{ total_records }}
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<table class="table table-striped">
+
+    <thead>
+    
+    <tr>
+    
+    <th>Date</th>
+    
+    <th>Crop</th>
+    
+    <th>Greenhouse</th>
+    
+    <th>Bed</th>
+    
+    <th>Grade</th>
+    
+    <th>Quantity (kg)</th>
+    
+    <th>Harvested By</th>
+    
+    </tr>
+    
+    </thead>
+    
+    <tbody>
+    
+    {% for harvest in harvests %}
+    
+    <tr>
+    
+    <td>
+    
+    {{ harvest.harvest_date }}
+    
+    </td>
+    
+    <td>
+    
+    {{ harvest.production_cycle_bed.production_cycle.crop_variety.crop.crop_name }}
+    
+    </td>
+    
+    <td>
+    
+    {{ harvest.production_cycle_bed.production_cycle.greenhouse.greenhouse_name }}
+    
+    </td>
+    
+    <td>
+    
+    {{ harvest.production_cycle_bed.bed.bed_code }}
+    
+    </td>
+    
+    <td>
+    
+    {{ harvest.harvest_grade }}
+    
+    </td>
+    
+    <td>
+    
+    {{ harvest.quantity_kg }}
+    
+    </td>
+    
+    <td>
+    
+    {{ harvest.harvested_by }}
+    
+    </td>
+    
+    </tr>
+    
+    {% empty %}
+    
+    <tr>
+    
+    <td colspan="7" class="text-center">
+    
+    No harvest records found.
+    
+    </td>
+    
+    </tr>
+    
+    {% endfor %}
+    
+    </tbody>
+    
+</table>
+<button
+
+onclick="window.print()"
+
+class="btn btn-success">
+
+<i class="bi bi-printer"></i>
+
+Print Report
+
+</button>
+
