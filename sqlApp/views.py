@@ -1119,7 +1119,7 @@ def greenhouse_performance(request, pk):
 
 
 
-@login_required
+# @login_required
 def operation_list(request):
 
     operations = (
