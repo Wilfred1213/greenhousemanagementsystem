@@ -29,6 +29,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['wildashboard.pythonanywhere.com']
 
 
+
 # Application definition
 
 INSTALLED_APPS = [

@@ -7,6 +7,7 @@ from django.db.models import Sum
 from decimal import Decimal
 from django.db import transaction
 import re
+from django.db.models import Max
 
 # Create your models here.
 
@@ -697,7 +698,7 @@ class OperationLog(models.Model):
     class Meta:
         ordering = ["-activity_date", "-id"]
 
-    from django.db.models import Max
+    
 
     def save(self, *args, **kwargs):
 
