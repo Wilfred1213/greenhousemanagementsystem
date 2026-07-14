@@ -2,10 +2,10 @@
 
 {% block content %}
 
-<a href="{% url 'export_harvest_excel' %}"
+{% comment %} <a href="{% url 'export_harvest_excel' %}"
    class="btn btn-success mb-3">
     📥 Export to Excel
-</a>
+</a> {% endcomment %}
 <div class="row mb-4">
 
     <div class="col-md-3">
@@ -97,124 +97,133 @@
     </div>
 
 </form>
-<table class="table table-striped align-middle">
+{% comment %} <table class="table table-striped align-middle"> {% endcomment %}
+<div class="card shadow">
 
-    <thead>
-    
-    <tr>
-    
-    <th>Date</th>
-    
-    <th>Greenhouse</th>
-    
-    <th>Cycle</th>
-    
-    <th>Bed</th>
-    
-    <th>Crop</th>
-    
-    <th>Grade</th>
-    
-    <th>Quantity</th>
-    
-    <th>Harvested By</th>
-    
-    <th></th>
-    
-    </tr>
-    
-    </thead>
-    
-    <tbody>
-    
-    {% for harvest in harvests %}
-    
-    <tr>
-    
-    <td>
-    
-    {{ harvest.harvest_date }}
-    
-    </td>
-    
-    <td>
-    
-    {{ harvest.production_cycle_bed.production_cycle.greenhouse.greenhouse_name }}
-    
-    </td>
-    
-    <td>
-    
-    {{ harvest.production_cycle_bed.production_cycle.cycle_number }}
-    
-    </td>
-    
-    <td>
-    
-    {{ harvest.production_cycle_bed.bed.bed_code }}
-    
-    </td>
-    
-    <td>
-    
-    {{ harvest.production_cycle_bed.production_cycle.crop_variety.crop.crop_name }}
-    
-    </td>
-    
-    <td>
-    
-    {{ harvest.harvest_grade }}
-    
-    </td>
-    
-    <td>
-    
-    <strong>
-    
-    {{ harvest.quantity_kg }} kg
-    
-    </strong>
-    
-    </td>
-    
-    <td>
-    
-    {{ harvest.harvested_by }}
-    
-    </td>
-    
-    <td>
-    
-    <a
-    href="{% url 'harvest_detail' harvest.pk %}"
-    class="btn btn-sm btn-outline-success">
-    
-    View
-    
-    </a>
-    
-    </td>
-    
-    </tr>
-    
-    {% empty %}
-    
-    <tr>
-    
-    <td colspan="9" class="text-center">
-    
-    No harvest records found.
-    
-    </td>
-    
-    </tr>
-    
-    {% endfor %}
-    
-    </tbody>
-    
-    </table>
+    <div class="card-body">
 
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+                
+                <tr>
+                
+                <th>Date</th>
+                
+                <th>Greenhouse</th>
+                
+                <th>Cycle</th>
+                
+                <th>Bed</th>
+                
+                <th>Crop</th>
+                
+                <th>Grade</th>
+                
+                <th>Quantity</th>
+                
+                <th>Harvested By</th>
+                
+                <th></th>
+                
+                </tr>
+                
+                </thead>
+                
+                <tbody>
+                
+                {% for harvest in harvests %}
+                
+                <tr>
+                
+                <td>
+                
+                {{ harvest.harvest_date }}
+                
+                </td>
+                
+                <td>
+                
+                {{ harvest.production_cycle_bed.production_cycle.greenhouse.greenhouse_name }}
+                
+                </td>
+                
+                <td>
+                
+                {{ harvest.production_cycle_bed.production_cycle.cycle_number }}
+                
+                </td>
+                
+                <td>
+                
+                {{ harvest.production_cycle_bed.bed.bed_code }}
+                
+                </td>
+                
+                <td>
+                
+                {{ harvest.production_cycle_bed.production_cycle.crop_variety.crop.crop_name }}
+                
+                </td>
+                
+                <td>
+                
+                {{ harvest.harvest_grade }}
+                
+                </td>
+                
+                <td>
+                
+                <strong>
+                
+                {{ harvest.quantity_kg }} kg
+                
+                </strong>
+                
+                </td>
+                
+                <td>
+                
+                {{ harvest.harvested_by }}
+                
+                </td>
+                
+                <td>
+                
+                <a
+                href="{% url 'harvest_detail' harvest.pk %}"
+                class="btn btn-sm btn-outline-success">
+                
+                View
+                
+                </a>
+                
+                </td>
+                
+                </tr>
+                
+                {% empty %}
+                
+                <tr>
+                
+                <td colspan="9" class="text-center">
+                
+                No harvest records found.
+                
+                </td>
+                
+                </tr>
+                
+                {% endfor %}
+                
+                </tbody>
+                
+            </table>
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}

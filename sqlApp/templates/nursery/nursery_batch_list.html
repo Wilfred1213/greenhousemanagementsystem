@@ -16,120 +16,122 @@ Nursery Batches
 
 <div class="card shadow">
 
-<div class="card-body">
+    <div class="card-body">
 
-<table class="table table-hover">
+        <div class="table-responsive">
 
-<thead>
+            <table class="table table-hover align-middle">
 
-<tr>
+                <thead>
 
-<th>Batch</th>
+                <tr>
 
-<th>Crop</th>
+                <th>Batch</th>
 
-<th>Variety</th>
+                <th>Crop</th>
 
-<th>Season</th>
+                <th>Variety</th>
 
-<th>Sowing Date</th>
+                <th>Season</th>
 
-<th>Expected Transplant</th>
+                <th>Sowing Date</th>
 
-<th>Status</th>
+                <th>Expected Transplant</th>
 
-<th></th>
+                <th>Status</th>
 
-</tr>
+                <th></th>
 
-</thead>
+                </tr>
 
-<tbody>
+                </thead>
 
-{% for batch in batches %}
+                <tbody>
 
-<tr>
+                {% for batch in batches %}
 
-<td>
+                <tr>
 
-{{ batch.batch_number }}
+                <td>
 
-</td>
+                {{ batch.batch_number }}
 
-<td>
+                </td>
 
-{{ batch.crop_variety.crop.crop_name }}
+                <td>
 
-</td>
+                {{ batch.crop_variety.crop.crop_name }}
 
-<td>
+                </td>
 
-{{ batch.crop_variety.variety_name }}
+                <td>
 
-</td>
+                {{ batch.crop_variety.variety_name }}
 
-<td>
+                </td>
 
-{{ batch.season.season_name }}
+                <td>
 
-</td>
+                {{ batch.season.season_name }}
 
-<td>
+                </td>
 
-{{ batch.sowing_date }}
+                <td>
 
-</td>
+                {{ batch.sowing_date }}
 
-<td>
+                </td>
 
-{{ batch.expected_transplant_date }}
+                <td>
 
-</td>
+                {{ batch.expected_transplant_date }}
 
-<td>
+                </td>
 
-<span class="badge bg-success">
+                <td>
 
-{{ batch.status }}
+                <span class="badge bg-success">
 
-</span>
+                {{ batch.status }}
 
-</td>
+                </span>
 
-<td>
+                </td>
 
-<a href="{% url 'nursery_batch_detail' batch.pk %}"
+                <td>
 
-class="btn btn-sm btn-outline-success">
+                <a href="{% url 'nursery_batch_detail' batch.pk %}"
 
-View
+                class="btn btn-sm btn-outline-success">
 
-</a>
+                View
 
-</td>
+                </a>
 
-</tr>
+                </td>
 
-{% empty %}
+                </tr>
 
-<tr>
+                {% empty %}
 
-<td colspan="8" class="text-center">
+                <tr>
 
-No nursery batches found.
+                <td colspan="8" class="text-center">
 
-</td>
+                No nursery batches found.
 
-</tr>
+                </td>
 
-{% endfor %}
+                </tr>
 
-</tbody>
+                {% endfor %}
 
-</table>
+                </tbody>
 
-</div>
+            </table>
 
+        </div>
+    </div>
 </div>
 
 </div>

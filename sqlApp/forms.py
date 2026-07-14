@@ -3,68 +3,68 @@ from django import forms
 from .models import OperationLog
 
 
-class OperationLogForm(forms.ModelForm):
+# class OperationLogForm(forms.ModelForm):
 
-    class Meta:
+    # class Meta:
 
-        model = OperationLog
+    #     model = OperationLog
 
-        fields = [
-            "activity_date",
-            "maintenance_type",
-            "product",
-            "quantity",
-            "unit",
-            "labour_cost",
-            "remarks",
-        ]
+    #     fields = [
+    #         "activity_date",
+    #         "maintenance_type",
+    #         "product",
+    #         "quantity",
+    #         "unit",
+    #         "labour_cost",
+    #         "remarks",
+    #     ]
 
-        widgets = {
+    #     widgets = {
 
-            "activity_date": forms.DateInput(
-                attrs={
-                    "type": "date",
-                    "class": "form-control"
-                }
-            ),
+    #         "activity_date": forms.DateInput(
+    #             attrs={
+    #                 "type": "date",
+    #                 "class": "form-control"
+    #             }
+    #         ),
 
-            "maintenance_type": forms.Select(
-                attrs={
-                    "class": "form-select"
-                }
-            ),
+    #         "maintenance_type": forms.Select(
+    #             attrs={
+    #                 "class": "form-select"
+    #             }
+    #         ),
 
-            "product": forms.Select(
-                attrs={
-                    "class": "form-select"
-                }
-            ),
+    #         "product": forms.Select(
+    #             attrs={
+    #                 "class": "form-select"
+    #             }
+    #         ),
 
-            "quantity": forms.NumberInput(
-                attrs={
-                    "class": "form-control"
-                }
-            ),
+    #         "quantity": forms.NumberInput(
+    #             attrs={
+    #                 "class": "form-control"
+    #             }
+    #         ),
 
-            "unit": forms.TextInput(
-                attrs={
-                    "class": "form-control"
-                }
-            ),
+    #         "unit": forms.TextInput(
+    #             attrs={
+    #                 "class": "form-control"
+    #             }
+    #         ),
 
-            "labour_cost": forms.NumberInput(
-                attrs={
-                    "class": "form-control"
-                }
-            ),
+    #         "labour_cost": forms.NumberInput(
+    #             attrs={
+    #                 "class": "form-control"
+    #             }
+    #         ),
 
-            "remarks": forms.Textarea(
-                attrs={
-                    "class": "form-control",
-                    "rows": 3
-                }
-            ),
-        }
+    #         "remarks": forms.Textarea(
+    #             attrs={
+    #                 "class": "form-control",
+    #                 "rows": 3
+    #             }
+    #         ),
+    #     }
 
 class OperationLogForm(forms.ModelForm):
 

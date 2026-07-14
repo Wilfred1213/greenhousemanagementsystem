@@ -6,6 +6,7 @@ from django.db.models.functions import Coalesce
 from django.db.models import Sum
 from decimal import Decimal
 from django.db import transaction
+import re
 
 # Create your models here.
 
@@ -94,7 +95,7 @@ class CropVariety(models.Model):
 
 
 class Greenhouse(models.Model):
-
+    
     GREENHOUSE_TYPES = [
         ("Tunnel", "Tunnel"),
         ("Gothic", "Gothic"),
@@ -109,9 +110,8 @@ class Greenhouse(models.Model):
         ("Inactive", "Inactive"),
     ]
 
-    greenhouse_code = models.CharField(max_length=20, unique=True, help_text="Example: GH001", null =True)
-
     greenhouse_name = models.CharField(max_length=100)
+    greenhouse_code = models.CharField(max_length=20, unique=True, help_text="Example: GH001", blank =True, null =True)
 
     location = models.CharField(max_length=200, blank=True)
 
@@ -138,6 +138,27 @@ class Greenhouse(models.Model):
         if self.length_m and self.width_m:
             return self.length_m * self.width_m
         return 0
+
+    
+
+    def save(self, *args, **kwargs):
+
+        if not self.greenhouse_code:
+
+            last = Greenhouse.objects.order_by("-id").first()
+
+            if last and last.greenhouse_code:
+
+                digits = re.findall(r"\d+", last.greenhouse_code)
+
+                number = int(digits[0]) + 1 if digits else 1
+
+            else:
+                number = 1
+
+            self.greenhouse_code = f"GH{number:03d}"
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.greenhouse_code} - {self.greenhouse_name}"
@@ -268,7 +289,7 @@ class Season(models.Model):
 
 
 class ProductionCycle(models.Model):
-
+    
     STATUS_CHOICES = [
         ("Planning", "Planning"),
         ("Nursery", "Nursery"),
@@ -676,26 +697,19 @@ class OperationLog(models.Model):
     class Meta:
         ordering = ["-activity_date", "-id"]
 
-    from django.db import transaction
+    from django.db.models import Max
+
     def save(self, *args, **kwargs):
-    
+
         if not self.operation_number:
 
-            last = (
-                OperationLog.objects
-                .order_by("-id")
-                .first()
-            )
+            last = OperationLog.objects.aggregate(
+                Max("id")
+            )["id__max"]
 
-            if last and last.operation_number:
+            next_id = 1 if last is None else last + 1
 
-                number = int(last.operation_number[2:]) + 1
-
-            else:
-
-                number = 1
-
-            self.operation_number = f"OP{number:05d}"
+            self.operation_number = f"OP{next_id:04d}"
 
         super().save(*args, **kwargs)
 
@@ -897,7 +911,8 @@ class NurseryBatch(models.Model):
 
     batch_number = models.CharField(
         max_length=30,
-        unique=True
+        unique=True,
+        blank =True
     )
 
     crop_variety = models.ForeignKey(
@@ -940,6 +955,21 @@ class NurseryBatch(models.Model):
 
     class Meta:
         ordering = ["-sowing_date"]
+
+    def save(self, *args, **kwargs):
+    
+        if not self.batch_number:
+
+            last = NurseryBatch.objects.order_by("-id").first()
+
+            if last:
+                number = int(last.batch_number.replace("NB", "")) + 1
+            else:
+                number = 1
+
+            self.batch_number = f"NB{number:04d}"
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.batch_number
@@ -990,7 +1020,9 @@ class Bay(models.Model):
     )
 
     bay_code = models.CharField(
-        max_length=20
+        max_length=20,
+        unique =True,
+        blank =True
     )
 
     bay_name = models.CharField(
@@ -1017,12 +1049,26 @@ class Bay(models.Model):
             "bay_code",
         )
 
-    def __str__(self):
-        return f"{self.greenhouse.greenhouse_name} - {self.bay_name}"
-
     @property
     def number_of_beds(self):
         return self.beds.count()
+
+    def save(self, *args, **kwargs):
+    
+        if not self.bay_code:
+
+            total = Bay.objects.filter(
+                greenhouse=self.greenhouse
+            ).count() + 1
+
+            self.bay_code = f"B{total:02d}"
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.greenhouse.greenhouse_name} - {self.bay_name}"
+
+    
 
     number_of_beds.fget.short_description = "Beds"
 class Bed(models.Model):
@@ -1042,7 +1088,9 @@ class Bed(models.Model):
     )
 
     bed_code = models.CharField(
-        max_length=20
+        max_length=20,
+        unique =True,
+        blank =True
     )
 
     bed_name = models.CharField(
@@ -1084,6 +1132,18 @@ class Bed(models.Model):
     @property
     def area(self):
         return self.length_m * self.width_m
+
+    def save(self, *args, **kwargs):
+    
+        if not self.bed_code:
+
+            total = Bed.objects.filter(
+                bay=self.bay
+            ).count() + 1
+
+            self.bed_code = f"BD{total:02d}"
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         if self.bay:
