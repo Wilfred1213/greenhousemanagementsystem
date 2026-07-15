@@ -1040,7 +1040,7 @@ def greenhouse_performance(request, pk):
     total_operations = (
         OperationLog.objects
         .filter(
-            production_cycle_bed__production_cycle__greenhouse=greenhouse
+            production_cycle__greenhouse=greenhouse
         )
         .count()
     )

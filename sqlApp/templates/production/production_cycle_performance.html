@@ -222,98 +222,102 @@
         </div>
 
         <div class="card-body">
+            <div class="table-responsive">
 
-            <table class="table table-bordered">
+                <table class="table table-hover table-sm align-middle">
 
-                <tbody>
+            
 
-                    <tr>
+                    <tbody>
 
-                        <th width="40%">
-                            Yield per Bed
-                        </th>
+                        <tr>
 
-                        <td>
+                            <th width="40%">
+                                Yield per Bed
+                            </th>
 
-                            {{ yield_per_bed|floatformat:2 }} kg
+                            <td>
 
-                        </td>
+                                {{ yield_per_bed|floatformat:2 }} kg
 
-                    </tr>
+                            </td>
 
-                    <tr>
+                        </tr>
 
-                        <th>
-                            Yield per Plant
-                        </th>
+                        <tr>
 
-                        <td>
+                            <th>
+                                Yield per Plant
+                            </th>
 
-                            {{ yield_per_plant|floatformat:2 }} kg
+                            <td>
 
-                        </td>
+                                {{ yield_per_plant|floatformat:2 }} kg
 
-                    </tr>
+                            </td>
 
-                    <tr>
+                        </tr>
 
-                        <th>
-                            Product Cost
-                        </th>
+                        <tr>
 
-                        <td>
+                            <th>
+                                Product Cost
+                            </th>
 
-                            ₦{{ product_cost }}
+                            <td>
 
-                        </td>
+                                ₦{{ product_cost }}
 
-                    </tr>
+                            </td>
 
-                    <tr>
+                        </tr>
 
-                        <th>
-                            Labour Cost
-                        </th>
+                        <tr>
 
-                        <td>
+                            <th>
+                                Labour Cost
+                            </th>
 
-                            ₦{{ labour_cost }}
+                            <td>
 
-                        </td>
+                                ₦{{ labour_cost }}
 
-                    </tr>
+                            </td>
 
-                    <tr>
+                        </tr>
 
-                        <th>
-                            Total Production Cost
-                        </th>
+                        <tr>
 
-                        <td class="fw-bold">
+                            <th>
+                                Total Production Cost
+                            </th>
 
-                            ₦{{ total_cost }}
+                            <td class="fw-bold">
 
-                        </td>
+                                ₦{{ total_cost }}
 
-                    </tr>
+                            </td>
 
-                    <tr>
+                        </tr>
 
-                        <th>
-                            Cost per kg
-                        </th>
+                        <tr>
 
-                        <td class="fw-bold text-danger">
+                            <th>
+                                Cost per kg
+                            </th>
 
-                            ₦{{ cost_per_kg|floatformat:2 }}
+                            <td class="fw-bold text-danger">
 
-                        </td>
+                                ₦{{ cost_per_kg|floatformat:2 }}
 
-                    </tr>
+                            </td>
 
-                </tbody>
+                        </tr>
 
-            </table>
+                    </tbody>
+
+                </table>
+            </div>s
 
         </div>
 
