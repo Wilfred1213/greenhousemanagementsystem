@@ -149,71 +149,73 @@ Dashboard
     
         </div>
     
+        
         <div class="card-body">
-    
+
             {% if low_stock_products %}
-         
+        
+            <div class="table-responsive">
+        
+                <table class="table table-hover align-middle">
     
-            <table class="table table-hover align-middle">
+                    <thead>
+        
+                        <tr>
+        
+                            <th>Product</th>
+        
+                            <th>Current Stock</th>
+        
+                            <th>Minimum Stock</th>
+        
+                            <th>Status</th>
+        
+                        </tr>
+        
+                    </thead>
+        
+                    <tbody>
+        
+                        {% for product in low_stock_products %}
+        
+                        <tr>
+        
+                            <td>
+        
+                                {{ product.product_name }}
+        
+                            </td>
+        
+                            <td>
+        
+                                {{ product.current_stock }} {{ product.unit }}
+        
+                            </td>
+        
+                            <td>
+        
+                                {{ product.minimum_stock }} {{ product.unit }}
+        
+                            </td>
+        
+                            <td>
+        
+                                <span class="badge bg-danger">
+        
+                                    Low Stock
+        
+                                </span>
+        
+                            </td>
+        
+                        </tr>
+        
+                        {% endfor %}
+        
+                    </tbody>
     
-                <thead>
-    
-                    <tr>
-    
-                        <th>Product</th>
-    
-                        <th>Current Stock</th>
-    
-                        <th>Minimum Stock</th>
-    
-                        <th>Status</th>
-    
-                    </tr>
-    
-                </thead>
-    
-                <tbody>
-    
-                    {% for product in low_stock_products %}
-    
-                    <tr>
-    
-                        <td>
-    
-                            {{ product.product_name }}
-    
-                        </td>
-    
-                        <td>
-    
-                            {{ product.current_stock }} {{ product.unit }}
-    
-                        </td>
-    
-                        <td>
-    
-                            {{ product.minimum_stock }} {{ product.unit }}
-    
-                        </td>
-    
-                        <td>
-    
-                            <span class="badge bg-danger">
-    
-                                Low Stock
-    
-                            </span>
-    
-                        </td>
-    
-                    </tr>
-    
-                    {% endfor %}
-    
-                </tbody>
-    
-            </table>
-    
+                </table>
+            </div>
             {% else %}
     
             <div class="alert alert-success mb-0">
