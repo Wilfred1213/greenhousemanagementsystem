@@ -1,0 +1,45 @@
+<form
+
+    hx-post="{% url 'ai:send_message' %}"
+
+    hx-target="#chat-window"
+
+    hx-swap="innerHTML"
+
+>
+
+{% csrf_token %}
+
+<input
+
+    type="hidden"
+
+    name="conversation_id"
+
+    value="{{ conversation.id }}">
+
+<div class="input-group">
+
+    <input
+
+        type="text"
+
+        name="message"
+
+        class="form-control"
+
+        placeholder="Ask Kwasari anything..."
+
+        autocomplete="off"
+
+        required>
+
+    <button class="btn btn-success">
+
+        Send
+
+    </button>
+
+</div>
+
+</form>

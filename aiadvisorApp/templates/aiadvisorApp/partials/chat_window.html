@@ -1,0 +1,31 @@
+<div class="p-4">
+
+    {% if conversation %}
+    
+        {% for message in conversation.messages.all %}
+    
+            {% include "aiadvisorApp/partials/message.html" %}
+    
+        {% empty %}
+    
+            <div class="text-center text-muted mt-5">
+    
+                🌱 Start chatting with Kwasari
+    
+            </div>
+    
+        {% endfor %}
+    
+    {% else %}
+    
+    <div class="text-center mt-5">
+    
+        <h2>🌱 Welcome to Kwasari</h2>
+    
+        <p>Your Intelligent Farm Assistant</p>
+    
+    </div>
+    
+    {% endif %}
+    
+    </div>

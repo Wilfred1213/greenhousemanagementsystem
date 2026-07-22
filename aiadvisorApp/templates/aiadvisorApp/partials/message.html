@@ -1,0 +1,41 @@
+{% if message.role == "USER" %}
+
+<div class="d-flex justify-content-end mb-3">
+
+    <div class="bg-success text-white rounded-4 p-3" style="max-width:75%;">
+
+        {{ message.content|linebreaks }}
+
+        <div class="small text-end mt-2">
+
+            {{ message.created_at|date:"H:i" }}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% else %}
+
+<div class="d-flex justify-content-start mb-3">
+
+    <div class="bg-light border rounded-4 p-3" style="max-width:75%;">
+
+        <strong>🌱 Kwasari</strong>
+
+        <hr class="my-2">
+
+        {{ message.content|linebreaks }}
+
+        <div class="small text-end mt-2 text-muted">
+
+            {{ message.created_at|date:"H:i" }}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endif %}

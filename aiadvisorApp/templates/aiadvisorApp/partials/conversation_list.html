@@ -1,0 +1,23 @@
+<div class="list-group">
+
+    {% for conversation in conversations %}
+    
+    <a
+        href="{% url 'ai:conversation' conversation.id %}"
+        class="list-group-item list-group-item-action">
+
+        🌱 {{ conversation.title }}
+
+    </a>
+    
+    {% empty %}
+    
+    <div class="text-center text-muted">
+    
+    No conversations yet
+    
+    </div>
+    
+    {% endfor %}
+    
+    </div>

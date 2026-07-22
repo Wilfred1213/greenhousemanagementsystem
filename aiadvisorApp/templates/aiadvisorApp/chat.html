@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Kwasari{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+<div class="row">
+
+    <!-- Sidebar -->
+
+    <div class="col-lg-3">
+
+        <div class="card shadow h-100">
+
+            <div class="card-header bg-success text-white">
+
+                🌱 Kwasari
+
+            </div>
+
+            <div class="card-body">
+
+                <a
+
+                    href="{% url 'ai:new_conversation' %}"
+
+                    class="btn btn-success w-100">
+
+                    + New Chat
+
+                </a>
+
+                <div id="conversation-list">
+
+                    {% include "aiadvisorApp/partials/conversation_list.html" %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Chat -->
+
+    <div class="col-lg-9">
+
+        <div class="card shadow">
+
+            <div class="card-header">
+
+                Kwasari
+
+            </div>
+
+            <div
+                id="chat-window"
+                style="height:600px;
+                       overflow-y:auto;">
+
+                {% include "aiadvisorApp/partials/chat_window.html" %}
+
+            </div>
+
+            <div class="card-footer">
+
+                {% include "aiadvisorApp/partials/chat_input.html" %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<script>
+    document.body.addEventListener("htmx:afterSwap", function(event){
+    
+        if(event.target.id === "chat-window"){
+    
+            event.target.scrollTop = event.target.scrollHeight;
+    
+        }
+    
+    });
+</script>
+
+{% endblock %}
