@@ -34,16 +34,19 @@ class HarvestTool(BaseTool):
 
         return any(word in question for word in harvest_words)
 
-    def execute(self, question):
+    def execute(self, plan):
+        crop = plan.crop
 
-        crop = EntityExtractor.extract_crop(question)
+        greenhouse = plan.greenhouse
 
-        greenhouse = EntityExtractor.extract_greenhouse(question)
+        # crop = EntityExtractor.extract_crop(question)
+
+        # greenhouse = EntityExtractor.extract_greenhouse(question)
 
         # Temporary debugging
         print("=" * 50)
         print("Harvest Tool")
-        print("Question:", question)
+        print("Question:", plan.original_question)
         print("Crop:", crop)
         print("Greenhouse:", greenhouse)
         print("=" * 50)

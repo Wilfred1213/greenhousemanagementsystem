@@ -16,10 +16,10 @@ class GreenhouseCropTool(BaseTool):
         "which greenhouse",
     ]
 
-    def execute(self, question):
-
+    def execute(self, plan):
         # crop = self.extract_crop(question)
-        crop = EntityExtractor.extract_crop(question)
+        # crop = EntityExtractor.extract_crop(question)
+        crop = plan.crop
 
         if not crop:
             return None

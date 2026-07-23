@@ -3,7 +3,6 @@ from .base_tool import BaseTool
 from sqlApp.models import Greenhouse, Bed
 from sqlApp.models import ProductionCycle
 
-from ..entity_extractor import EntityExtractor
 
 
 class GreenhouseTool(BaseTool):
@@ -36,10 +35,16 @@ class GreenhouseTool(BaseTool):
 
         return any(word in question for word in greenhouse_words)
 
-    def execute(self, question):
-    
-        crop = EntityExtractor.extract_crop(question)
+    def execute(self, plan):
 
+        print("=" * 50)
+        print("Greenhouse Tool")
+        print("Question:", plan.original_question)
+        print("=" * 50)
+
+        question = plan.original_question.lower()
+        # crop = EntityExtractor.extract_crop(question)
+        crop = plan.crop
         if crop:
 
             cycles = ProductionCycle.objects.filter(

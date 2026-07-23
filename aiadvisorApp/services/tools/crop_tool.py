@@ -27,9 +27,10 @@ class CropTool(BaseTool):
 
         return any(word in question for word in self.keywords)
 
-    def execute(self, question):
+    def execute(self, plan):
 
-        crop = EntityExtractor.extract_crop(question)
+        # crop = EntityExtractor.extract_crop(question)
+        crop = plan.crop
 
         if crop:
 

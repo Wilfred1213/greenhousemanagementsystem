@@ -675,7 +675,7 @@ def production_cycle_detail(request, pk):
 
 def operation_type_detail_api(request, pk):
     operation_type =get_object_or_404(
-        Operation_type, pk=pk
+        OperationType, pk=pk
     )
 
     data = {

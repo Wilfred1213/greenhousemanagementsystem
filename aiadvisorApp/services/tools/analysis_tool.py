@@ -19,9 +19,10 @@ class AnalysisTool(BaseTool):
         "better",
         "most",
     ]
-    def execute(self, question):
+    def execute(self, plan):
     
-        question = question.lower()
+        # question = question.lower()
+        question = plan.original_question.lower()
 
         if "crop" in question:
 

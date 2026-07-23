@@ -1,103 +1,85 @@
-from .intent_router import IntentRouter
-from .tool_registry import ToolRegistry
-from .entity_extractor import EntityExtractor
+from .plan import Plan
+from .parameter_extractor import ParameterExtractor
+
+from .tools.harvest_tool import HarvestTool
+from .tools.greenhouse_tool import GreenhouseTool
+from .tools.greenhouse_crop_tool import GreenhouseCropTool
+from .tools.analysis_tool import AnalysisTool
+from .tools.crop_tool import CropTool
+from .tools.general_agriculture_tool import GeneralAgricultureTool
 
 
 class Planner:
 
-    @classmethod
-    def plan(cls, question):
+    @staticmethod
+    def plan(question):
 
-        question = question.lower()
+        parameters = ParameterExtractor.extract(question)
 
-        tools = []
+        crop = parameters.crop
+        greenhouse = parameters.greenhouse
 
-        # First tool from the intent
-        intent = IntentRouter.detect(question)
+        q = question.lower()
 
-        tools.append(
-            ToolRegistry.get_tool(intent)
-        )
+        plan = Plan()
 
-        crop = EntityExtractor.extract_crop(question)
+        plan.original_question = question
+        plan.crop = crop
+        plan.greenhouse = greenhouse
 
-        # -------------------------
-        # Crop + greenhouse question
-        # -------------------------
-
-        if crop and "greenhouse" in question:
-
-            tools.append(
-                ToolRegistry.get_tool("greenhouse_crop")
-            )
-
-        # -------------------------
-        # Crop question
-        # -------------------------
-
-        if crop:
-
-            tools.append(
-                ToolRegistry.get_tool("harvest")
-            )
-
-        # -------------------------
-        # Analysis
-        # -------------------------
-
-        if any(word in question for word in [
+        # Highest harvest
+        if any(word in q for word in [
             "highest",
             "best",
-            "lowest",
             "most",
-            "compare",
         ]):
 
-            tools.append(
-                ToolRegistry.get_tool("analysis")
-            )
+            plan.intent = "analysis"
+            plan.tools = [AnalysisTool]
 
-        # Remove duplicates
+            return plan
 
-        return list(dict.fromkeys(tools))
+        # Which greenhouse has tomatoes?
+        if crop and "greenhouse" in q:
 
-# from .intent_router import IntentRouter
-# from .tool_registry import ToolRegistry
+            plan.intent = "greenhouse_crop"
+            plan.tools = [GreenhouseCropTool]
 
+            return plan
 
-# class Planner:
+        # Tell me about tomato
+        if crop:
 
-#     @classmethod
-#     def plan(cls, question):
+            plan.intent = "crop"
+            plan.tools = [CropTool]
 
-#         question = question.lower()
+            return plan
 
-#         tools = []
+        # Greenhouse summary
+        if "greenhouse" in q:
 
-#         intent = IntentRouter.detect(question)
+            plan.intent = "greenhouse"
+            plan.tools = [GreenhouseTool]
 
-#         # First tool from intent
-#         tools.append(ToolRegistry.get_tool(intent))
+            return plan
 
-#         # Multi-tool rules
+        # Harvest
+        if any(word in q for word in [
 
-#         if "greenhouse" in question and any(
-#             crop in question
-#             for crop in [
-#                 "tomato",
-#                 "cucumber",
-#                 "pepper",
-#                 "carrot",
-#                 "potato",
-#             ]
-#         ):
-#             tools.append(
-#                 ToolRegistry.get_tool("crop")
-#             )
+            "harvest",
+            "yield",
+            "production",
+            "kg",
+            "produce",
 
-#         if "highest" in question or "best" in question:
-#             tools.append(
-#                 ToolRegistry.get_tool("harvest")
-#             )
+        ]):
 
-#         return list(dict.fromkeys(tools))
+            plan.intent = "harvest"
+            plan.tools = [HarvestTool]
+
+            return plan
+
+        plan.intent = "general"
+        plan.tools = [GeneralAgricultureTool]
+
+        return plan
