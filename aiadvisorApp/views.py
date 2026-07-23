@@ -14,7 +14,7 @@ from .services.memory_service import MemoryService
 
 from .models import Conversation
 
-@login_required
+# @login_required
 def chat(request, conversation_id=None):
 
     conversations = Conversation.objects.filter(
@@ -211,7 +211,7 @@ def send_message(request):
 #     )
 
 
-@login_required
+# @login_required
 def new_conversation(request):
 
     conversation = Conversation.objects.create(
