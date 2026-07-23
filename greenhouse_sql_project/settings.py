@@ -25,9 +25,9 @@ SECRET_KEY = 'django-insecure-fy@ps)4vp)t&zmxg93m8yyoc@tp9vm6!zw%6%tv*a@@_i*t7s7
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['wildashboard.pythonanywhere.com']
 
 
 
