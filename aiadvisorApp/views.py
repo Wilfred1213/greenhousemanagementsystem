@@ -9,12 +9,14 @@ from .models import Conversation
 from .services.ai_engine import KwasariAI
 from .services.conversation_service import ConversationService
 from .services.memory_service import MemoryService
+from django.contrib.auth.forms import UserCreationForm
+
 
 
 
 from .models import Conversation
 
-# @login_required
+@login_required
 def chat(request, conversation_id=None):
 
     conversations = Conversation.objects.filter(
@@ -145,73 +147,10 @@ def send_message(request):
         )
     }
 )
-    # return render(
-    #     request,
-    #     "aiadvisorApp/partials/chat_window.html",
-    #     {
-    #         "conversation": conversation
-    #     }
-    # )
-# def send_message(request):
     
-#     print("send_message view called")
-
-#     conversation_id = request.POST.get("conversation_id")
-#     user_message = request.POST.get("message")
-
-#     # Create a new conversation if none exists
-#     if conversation_id:
-
-#         conversation = get_object_or_404(
-#             Conversation,
-#             id=conversation_id
-#         )
-
-#     else:
-
-#         conversation = ConversationService.create_conversation(
-#             request.user,
-#             user_message
-#         )
-
-#     ai = KwasariAI()
-
-#     # reply = ai.ask(user_message)
-    
-#     context = MemoryService.build_context(conversation)
-
-#     reply = ai.ask(
-
-#         user_message,
-
-#         context=context
-
-#     )
-
-#     ConversationService.add_ai_message(
-
-#         conversation,
-
-#         reply
-
-#     )
-
-#     return render(
-
-#         request,
-
-#         "aiadvisorApp/partials/chat_window.html",
-
-#         {
-
-#             "conversation": conversation
-
-#         }
-
-#     )
 
 
-# @login_required
+@login_required
 def new_conversation(request):
 
     conversation = Conversation.objects.create(
@@ -228,4 +167,29 @@ def new_conversation(request):
 
         conversation_id=conversation.id
 
+    )
+
+
+
+
+def signup(request):
+
+    if request.method == "POST":
+
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect("login")
+
+    else:
+
+        form = UserCreationForm()
+
+    return render(
+        request,
+        "registration/signup.html",
+        {"form": form},
     )

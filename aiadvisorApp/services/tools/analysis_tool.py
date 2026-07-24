@@ -25,64 +25,62 @@ class AnalysisTool(BaseTool):
         question = plan.original_question.lower()
 
         if "crop" in question:
-
-            if any(word in question for word in [
-                "highest",
-                "best",
-                "most",
-            ]):
-
+    
+            if any(w in question for w in ("highest", "best", "most")):
                 return self.best_crop()
 
-            if any(word in question for word in [
-                "lowest",
-                "least",
-            ]):
-
+            if any(w in question for w in ("lowest", "least")):
                 return self.lowest_crop()
 
-        if "greenhouse" in question:
+        elif "greenhouse" in question:
 
-            if any(word in question for word in [
-                "highest",
-                "best",
-                "most",
-            ]):
-
+            if any(w in question for w in ("highest", "best", "most")):
                 return self.best_greenhouse()
 
-            if any(word in question for word in [
-                "lowest",
-                "least",
-            ]):
-
+            if any(w in question for w in ("lowest", "least")):
                 return self.lowest_greenhouse()
 
         return None
-    # def execute(self, question):
 
-    #     question = question.lower()
-    #     if "crop" in question and (
-    #         "highest" in question
-    #         or "best" in question
-    #         or "most" in question
-    #     ):
+        # if "crop" in question:
 
-    #         return self.highest_crop()
+        #     if any(word in question for word in [
+        #         "highest",
+        #         "best",
+        #         "most",
+        #     ]):
 
-    #     if "greenhouse" in question and (
-    #         "best" in question
-    #         or "highest" in question
-    #         or "better" in question
-    #         or "most" in question
-    #     ):
+        #         return self.best_crop()
 
-    #         return self.best_greenhouse()
+        #     if any(word in question for word in [
+        #         "lowest",
+        #         "least",
+        #     ]):
 
-    #     return None
+        #         return self.lowest_crop()
+
+        # if "greenhouse" in question:
+
+        #     if any(word in question for word in [
+        #         "highest",
+        #         "best",
+        #         "most",
+        #     ]):
+
+        #         return self.best_greenhouse()
+
+        #     if any(word in question for word in [
+        #         "lowest",
+        #         "least",
+        #     ]):
+
+        #         return self.lowest_greenhouse()
+
+        # return None
+    
     def best_crop(self):
     
-        data = (
+        highest = (
             Harvest.objects
             .values(
                 "production_cycle_bed__production_cycle__crop_variety__crop__crop_name"
@@ -91,22 +89,42 @@ class AnalysisTool(BaseTool):
                 total=Sum("quantity_kg")
             )
             .order_by("-total")
+            .first()
         )
 
-        if not data:
-            return "No harvest records found."
+        if not highest:
 
-        winner = data[0]
+            return {
 
-        return f"""
-    🏆 Highest Harvest Crop
+                "tool": "analysis",
 
-    {winner["production_cycle_bed__production_cycle__crop_variety__crop__crop_name"]}
+                "status": "not_found",
 
-    Total Harvest
+                "data": {}
 
-    {winner["total"]} kg
-    """
+            }
+
+        return {
+
+            "tool": "analysis",
+
+            "status": "success",
+
+            "data": {
+
+                "analysis": "highest_crop",
+
+                "crop": highest[
+                    "production_cycle_bed__production_cycle__crop_variety__crop__crop_name"
+                ],
+
+                "quantity_kg": float(
+                    highest["total"]
+                )
+
+            }
+
+        }
     def lowest_crop(self):
     
         data = (
@@ -125,15 +143,25 @@ class AnalysisTool(BaseTool):
 
         crop = data[0]
 
-        return f"""
-    📉 Lowest Harvest Crop
+        return {
 
-    {crop["production_cycle_bed__production_cycle__crop_variety__crop__crop_name"]}
+    "tool": "analysis",
 
-    Total Harvest
+    "status": "success",
 
-    {crop["total"]} kg
-    """
+    "data": {
+
+        "analysis": "lowest_crop",
+
+        "crop": crop[
+            "production_cycle_bed__production_cycle__crop_variety__crop__crop_name"
+        ],
+
+        "quantity_kg": float(crop["total"])
+
+    }
+
+}
 
     def best_greenhouse(self):
 
@@ -154,39 +182,70 @@ class AnalysisTool(BaseTool):
 
         winner = data[0]
 
-        return f"""
-        🏆 Best Performing Greenhouse
+        return {
 
-        {winner["production_cycle_bed__bed__bay__greenhouse__greenhouse_name"]}
+            "tool": "analysis",
 
-        Total Harvest
+            "status": "success",
 
-        {winner["total"]} kg
-        """
-    def highest_crop(self):
+            "data": {
+
+                "analysis": "highest_greenhouse",
+
+                "greenhouse": winner[
+                    "production_cycle_bed__bed__bay__greenhouse__greenhouse_name"
+                ],
+
+                "quantity_kg": float(winner["total"])
+
+            }
+
+        }
+    
+    def lowest_greenhouse(self):
     
         data = (
             Harvest.objects
             .values(
-                "production_cycle_bed__production_cycle__crop_variety__crop__crop_name"
+                "production_cycle_bed__bed__bay__greenhouse__greenhouse_name"
             )
             .annotate(
                 total=Sum("quantity_kg")
             )
-            .order_by("-total")
+            .order_by("total")
         )
 
         if not data:
-            return "No harvest records found."
 
-        winner = data[0]
+            return {
 
-        return f"""
-    🏆 Highest Harvested Crop
+                "tool": "analysis",
 
-    Crop:
-    {winner["production_cycle_bed__production_cycle__crop_variety__crop__crop_name"]}
+                "status": "not_found",
 
-    Total Harvest:
-    {winner["total"]} kg
-    """
+                "data": {}
+
+            }
+
+        greenhouse = data[0]
+
+        return {
+
+            "tool": "analysis",
+
+            "status": "success",
+
+            "data": {
+
+                "analysis": "lowest_greenhouse",
+
+                "greenhouse": greenhouse[
+                    "production_cycle_bed__bed__bay__greenhouse__greenhouse_name"
+                ],
+
+                "quantity_kg": float(greenhouse["total"])
+
+            }
+
+        }
+        

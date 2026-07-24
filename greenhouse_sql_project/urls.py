@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('sqlApp.urls')),
     path('ai/', include('aiadvisorApp.urls')),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]

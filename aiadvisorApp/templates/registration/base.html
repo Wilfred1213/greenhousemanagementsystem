@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authentication {% block title %}{% endblock %}</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+        <style>
+
+            body{
+    
+                background:#f5f7f8;
+    
+                min-height:100vh;
+    
+                display:flex;
+    
+                justify-content:center;
+    
+                align-items:center;
+    
+                font-family:Segoe UI,Tahoma,sans-serif;
+    
+            }
+    
+            .auth-card{
+    
+                width:420px;
+    
+                border:none;
+    
+                border-radius:18px;
+    
+                overflow:hidden;
+    
+                box-shadow:0 10px 25px rgba(0,0,0,.12);
+    
+            }
+    
+            .auth-header{
+    
+                background:#198754;
+    
+                color:white;
+    
+                text-align:center;
+    
+                padding:30px;
+    
+            }
+    
+            .auth-header i{
+    
+                font-size:55px;
+    
+            }
+    
+            .auth-header h3{
+    
+                margin-top:10px;
+    
+                font-weight:700;
+    
+            }
+    
+            .card-body{
+    
+                padding:35px;
+    
+            }
+    
+            .form-control{
+    
+                border-radius:10px;
+    
+                height:48px;
+    
+            }
+    
+            .form-control:focus{
+    
+                border-color:#198754;
+    
+                box-shadow:0 0 0 .2rem rgba(25,135,84,.2);
+    
+            }
+    
+            .btn-success,
+            .btn-primary{
+    
+                height:48px;
+    
+                border-radius:10px;
+    
+                font-weight:600;
+    
+            }
+    
+            .text-danger ul{
+    
+                list-style:none;
+    
+                padding-left:0;
+    
+                margin-bottom:0;
+    
+            }
+    
+            .footer-links{
+    
+                text-align:center;
+    
+                margin-top:20px;
+    
+            }
+    
+            .footer-links a{
+    
+                text-decoration:none;
+    
+            }
+    
+        </style>
+    
+</head>
+
+<body class="bg-light">
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>

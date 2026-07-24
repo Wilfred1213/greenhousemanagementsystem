@@ -77,12 +77,16 @@ class HarvestTool(BaseTool):
 
         greenhouse_names = greenhouse.greenhouse_name if greenhouse else "All Greenhouses"
 
-        return f"""
-            🌾 Harvest Summary
+        return {
 
-            Crop : {crop_names}
+            "tool": "harvest",
 
-            Greenhouse : {greenhouse_names}
+            "status": "success",
 
-            Total Harvest : {total} kg
-            """
+            "crop": crop_names,
+
+            "greenhouse": greenhouse_names,
+
+            "quantity_kg": float(total),
+
+}

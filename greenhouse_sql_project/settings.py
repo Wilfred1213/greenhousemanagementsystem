@@ -24,10 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-fy@ps)4vp)t&zmxg93m8yyoc@tp9vm6!zw%6%tv*a@@_i*t7s7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+ALLOWED_HOSTS = []
 
-DEBUG = False
 
-ALLOWED_HOSTS = ['wildashboard.pythonanywhere.com']
+# DEBUG = False
+
+# ALLOWED_HOSTS = ['wildashboard.pythonanywhere.com']
 
 
 
@@ -155,7 +158,9 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
-
+LOGIN_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = "/ai/kwasari/"
+LOGOUT_REDIRECT_URL = "/accounts/login/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
