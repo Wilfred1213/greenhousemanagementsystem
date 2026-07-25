@@ -1022,7 +1022,7 @@ class Bay(models.Model):
 
     bay_code = models.CharField(
         max_length=20,
-        unique =True,
+        # unique =True,
         blank =True
     )
 

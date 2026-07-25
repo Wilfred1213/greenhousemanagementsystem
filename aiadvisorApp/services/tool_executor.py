@@ -14,3 +14,16 @@ class ToolExecutor:
                 responses.append(result)
 
         return responses
+
+        # temporal
+
+        for tool in plan.tools:
+        
+            result = tool().execute(plan)
+
+            print("=" * 50)
+            print("RESULT FROM TOOL")
+            print(result)
+
+            if result:
+                responses.append(result)

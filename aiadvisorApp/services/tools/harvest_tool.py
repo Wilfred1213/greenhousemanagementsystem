@@ -83,10 +83,14 @@ class HarvestTool(BaseTool):
 
             "status": "success",
 
-            "crop": crop_names,
+            "data": {
 
-            "greenhouse": greenhouse_names,
+                "crop": crop_names,
 
-            "quantity_kg": float(total),
+                "greenhouse": greenhouse_names,
 
-}
+                "quantity_kg": float(total)
+
+            }
+
+        }

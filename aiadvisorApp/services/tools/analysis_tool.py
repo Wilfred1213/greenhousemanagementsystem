@@ -20,7 +20,9 @@ class AnalysisTool(BaseTool):
         "most",
     ]
     def execute(self, plan):
-    
+        print("=" * 50)
+        print("ANALYSIS TOOL")
+        print("Intent:", plan.intent)
         # question = question.lower()
         question = plan.original_question.lower()
 
@@ -42,41 +44,7 @@ class AnalysisTool(BaseTool):
 
         return None
 
-        # if "crop" in question:
-
-        #     if any(word in question for word in [
-        #         "highest",
-        #         "best",
-        #         "most",
-        #     ]):
-
-        #         return self.best_crop()
-
-        #     if any(word in question for word in [
-        #         "lowest",
-        #         "least",
-        #     ]):
-
-        #         return self.lowest_crop()
-
-        # if "greenhouse" in question:
-
-        #     if any(word in question for word in [
-        #         "highest",
-        #         "best",
-        #         "most",
-        #     ]):
-
-        #         return self.best_greenhouse()
-
-        #     if any(word in question for word in [
-        #         "lowest",
-        #         "least",
-        #     ]):
-
-        #         return self.lowest_greenhouse()
-
-        # return None
+        
     
     def best_crop(self):
     

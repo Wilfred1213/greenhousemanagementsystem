@@ -9,12 +9,18 @@ class QueryRewriter:
     def rewrite(question, context):
 
         crop = ConversationMemory.latest_crop(context)
-
         greenhouse = ConversationMemory.latest_greenhouse(context)
 
-        rewritten = question
+        rewritten = question.strip()
+
+        q = rewritten.lower()
+
+        # ------------------------------------
+        # Pronoun replacement
+        # ------------------------------------
 
         if crop:
+
             rewritten = re.sub(
                 r"\bit\b",
                 crop,
@@ -30,12 +36,31 @@ class QueryRewriter:
             )
 
         if greenhouse:
+
             rewritten = re.sub(
                 r"\bthat greenhouse\b",
                 greenhouse,
                 rewritten,
                 flags=re.IGNORECASE
             )
+
+        # ------------------------------------
+        # Follow-up questions
+        # ------------------------------------
+
+        if crop:
+
+            if q in [
+
+                "from which greenhouse",
+                "which greenhouse",
+                "where",
+
+            ]:
+
+                rewritten = (
+                    f"Which greenhouse is growing {crop}?"
+                )
 
         print("=" * 50)
         print("Memory crop:", crop)

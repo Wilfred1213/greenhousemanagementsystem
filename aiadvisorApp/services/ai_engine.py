@@ -7,6 +7,7 @@ from .tool_executor import ToolExecutor
 class KwasariAI:
 
     def ask(self, question, context=None):
+        
 
         print("=" * 50)
         print("Conversation Context")
@@ -33,3 +34,20 @@ class KwasariAI:
             plan.original_question,
             responses
         )
+
+        responses = ToolExecutor.execute(plan)
+
+        print("=" * 50)
+        print("TOOL RESPONSE")
+        print(responses)
+
+        reply = ResponseComposer.compose(
+            plan.original_question,
+            responses
+        )
+
+        print("=" * 50)
+        print("FINAL REPLY")
+        print(reply)
+
+        return reply
