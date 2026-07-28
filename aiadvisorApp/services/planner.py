@@ -28,22 +28,30 @@ class Planner:
         plan.greenhouse = parameters.greenhouse
 
         ###########################################################
+        # GREENHOUSE OCCUPANCY
+        ###########################################################
+
+        if "greenhouse" in q and any(text in q for text in [
+
+            "occupied",
+            "occupancy",
+            "most occupied",
+            "least occupied",
+            "empty beds",
+            "available beds",
+
+        ]):
+
+            plan.intent = "greenhouse_occupancy"
+            plan.tools = [FarmStatusTool]
+
+            return plan
+
+        ###########################################################
         # 1. ANALYSIS QUESTIONS
         ###########################################################
 
-        # if any(word in q for word in [
-        #     "highest",
-        #     "best",
-        #     "lowest",
-        #     "least",
-        #     "most",
-        #     "compare",
-        #     "better",
-        # ]):
-
-        #     plan.intent = "analysis"
-        #     plan.tools = [AnalysisTool]
-        #     return plan
+        
         if any(word in q for word in [
             "highest",
             "lowest",

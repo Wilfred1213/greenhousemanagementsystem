@@ -121,41 +121,56 @@ class ResponseComposer:
 
                     responses.append(
 
-            f"""
-            🏡 {data["greenhouse"]}
+                    f"""
+                    🏡 {data["greenhouse"]}
 
-            Current Crop
-            ------------
-            {data["crop"]}
+                    Current Crop
+                    ------------
+                    {data["crop"]}
 
-            Current Stage
-            -------------
-            {data["status"]}
+                    Current Stage
+                    -------------
+                    {data["status"]}
 
-            Production Cycle
-            ----------------
-            {data["cycle"]}
+                    Production Cycle
+                    ----------------
+                    {data["cycle"]}
 
-            Season
-            ------
-            {data["season"]}
+                    Season
+                    ------
+                    {data["season"]}
 
-            Transplanted
-            ------------
-            {data["transplant_date"]}
+                    Transplanted
+                    ------------
+                    {data["transplant_date"]}
 
-            Expected First Harvest
-            ----------------------
-            {data["next_harvest"]}
+                    Expected First Harvest
+                    ----------------------
+                    {data["next_harvest"]}
 
-            Beds Occupied
-            -------------
-            {data["beds"]}
+                    Beds Occupied
+                    -------------
+                    {data["beds"]}
 
-            Total Harvest
-            -------------
-            {data["harvest"]:.2f} kg
-            """
+                    Total Harvest
+                    -------------
+                    {data["harvest"]:.2f} kg
+                    """
+                            )
+                elif knowledge == "greenhouse_occupancy":
+    
+                    responses.append(
+                        f"""
+                🏡 Most Occupied Greenhouse
+
+                Greenhouse
+                ----------
+                {data["greenhouse"]}
+
+                Occupied Beds
+                -------------
+                {data["occupied_beds"]}
+                """
                     )
 
             elif tool == "production_cycle":
@@ -221,5 +236,8 @@ class ResponseComposer:
             {text}
             """
                     )
+            elif tool == "gemini":
         
+                responses.append(data["answer"])
+            
         return "\n\n".join(responses)

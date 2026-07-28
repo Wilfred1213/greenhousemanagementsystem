@@ -1,10 +1,12 @@
 from django.db.models import Sum
+from django.db.models import Count
 
 from .base_tool import BaseTool
 
 from sqlApp.models import (
     ProductionCycle,
     Harvest,
+    ProductionCycleBed
 )
 
 
@@ -18,9 +20,12 @@ class FarmStatusTool(BaseTool):
 
     def execute(self, plan):
 
+        
         if plan.intent == "greenhouse_summary":
             return self.greenhouse_summary(plan)
 
+        elif plan.intent == "greenhouse_occupancy":
+            return self.greenhouse_occupancy(plan)
         return None
 
     def greenhouse_summary(self, plan):
@@ -95,6 +100,56 @@ class FarmStatusTool(BaseTool):
                 "beds": cycle.beds_used,
 
                 "harvest": float(total_harvest),
+
+            }
+
+        }
+
+
+    def greenhouse_occupancy(self, plan):
+
+        occupied = (
+            ProductionCycleBed.objects
+            .filter(
+                production_cycle__status__in=[
+                    "Nursery",
+                    "Growing",
+                    "Harvesting",
+                ]
+            )
+            .values(
+                "bed__bay__greenhouse__greenhouse_name"
+            )
+            .annotate(
+                occupied_beds=Count("id")
+            )
+            .order_by("-occupied_beds")
+            .first()
+        )
+
+        if not occupied:
+
+            return {
+                "tool": "farm_status",
+                "status": "not_found",
+                "data": {}
+            }
+
+        return {
+
+            "tool": "farm_status",
+
+            "status": "success",
+
+            "data": {
+
+                "knowledge": "greenhouse_occupancy",
+
+                "greenhouse":
+                    occupied["bed__bay__greenhouse__greenhouse_name"],
+
+                "occupied_beds":
+                    occupied["occupied_beds"]
 
             }
 

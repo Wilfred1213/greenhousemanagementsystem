@@ -1,33 +1,51 @@
-from .base_tool import BaseTool
+from ..gemini_service import GeminiService
 
 
-class GeneralAgricultureTool(BaseTool):
+class GeneralAgricultureTool:
 
-    name = "General Agriculture"
+    def execute(self, plan):
 
-    description = "Answers general agriculture questions."
+        gemini = GeminiService()
 
-    keywords = []
+        answer = gemini.ask(plan.original_question)
 
-    def execute(self, question):
+        return {
+            "tool": "gemini",
+            "status": "success",
+            "data": {
+                "answer": answer
+            }
+        }
+# from .base_tool import BaseTool
 
-        return f"""
-        I understand your question:
 
-        "{question}"
+# class GeneralAgricultureTool(BaseTool):
 
-        At the moment I specialize in analysing your farm records.
+#     name = "General Agriculture"
 
-        Soon I will also answer general agricultural questions using an AI language model.
+#     description = "Answers general agriculture questions."
 
-        For example:
+#     keywords = []
 
-        • Crop production
-        • Livestock
-        • Poultry
-        • Beekeeping
-        • Soil fertility
-        • Pest and disease management
-        • Irrigation
-        • Weather advice
-        """
+#     def execute(self, question):
+
+#         return f"""
+#         I understand your question:
+
+#         "{question}"
+
+#         At the moment I specialize in analysing your farm records.
+
+#         Soon I will also answer general agricultural questions using an AI language model.
+
+#         For example:
+
+#         • Crop production
+#         • Livestock
+#         • Poultry
+#         • Beekeeping
+#         • Soil fertility
+#         • Pest and disease management
+#         • Irrigation
+#         • Weather advice
+#         """
