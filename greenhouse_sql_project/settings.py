@@ -53,6 +53,10 @@ INSTALLED_APPS = [
     "aiadvisorApp"
 ]
 
+<<<<<<< HEAD
+=======
+GEMINI_API_KEY = "AQ.Ab8RN6IEVWAfL5nK8zAGXZPPowmZM6eUdgb9tAwF-mJKV4Byxw"
+>>>>>>> 8353a7a (gemini commit)
 
 
 
