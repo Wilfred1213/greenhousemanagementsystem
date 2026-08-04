@@ -75,6 +75,37 @@ This project was developed as an academic and practical greenhouse management so
 * Inventory reports
 
 ---
+## 🌱 Lambu AI Assistant
+
+Lambu AI is an integrated intelligent agricultural assistant designed specifically for the greenhouse management system.
+
+Unlike a general-purpose chatbot, Lambu AI understands the greenhouse workflow and assists users using the system's production data and agricultural knowledge.
+
+### Current Capabilities
+
+- Greeting and conversational assistance
+- Hausa language translation
+- Intelligent tool routing using a modular AI architecture
+- Context-aware responses based on greenhouse operations
+- Extensible AI Tool Framework for adding new agricultural tools
+
+### Planned Features
+
+- Crop disease diagnosis
+- Pest identification and recommendations
+- Fertilizer recommendation engine
+- Greenhouse production analytics
+- Weather advisory integration
+- Smart inventory assistant
+- Voice interaction
+- AI-powered report generation
+- Integration with Google Gemini for advanced reasoning
+- Learning from greenhouse operational data
+
+### Lambu AI Architecture
+
+Lambu AI follows a modular architecture designed for scalability.
+
 
 ## Technologies Used
 
