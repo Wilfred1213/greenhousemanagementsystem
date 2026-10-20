@@ -1,6 +1,11 @@
 # SCL Greenhouse Production & Inventory Management System
 
 ## Overview
+# SCL Greenhouse Production & Inventory Management System
+
+**Live Demo:** https://wildashboard.pythonanywhere.com/  
+**Repo:** https://github.com/Wilfred1213/greenhousemanagementsystem  
+
 
 The **SCL Greenhouse Production & Inventory Management System** is a web-based application developed using Django to help greenhouse managers efficiently plan, monitor, and manage greenhouse production activities. The system integrates nursery management, production cycles, harvesting, operations, inventory control, supplier management, and reporting into a single platform.
 
